@@ -2,13 +2,19 @@
 //*  Muon decay while passing through parmanent magnet *
 //*                                                    *
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
-//*  \file muonDetectorMessemger.hh                                 *
+//*  \file muDetectorMessemger.hh                                 *
 //* ****************************************************
 //  $Id: muDetectorMessenger.hh Feb 01, 2019 15:25:08Z vega $
 #ifndef muDetectorMessenger_H
 #define muDetectorMessenger_H 1
 
 #include "G4UImessenger.hh"
+#include "DetectorConstruction.hh"
+#include "G4UIdirectory.hh"
+#include "G4UIcmdWithAString.hh"
+#include "G4UIcmdWithADoubleAndUnit.hh"
+#include "G4UIcmdWithoutParameter.hh"
+
 #include "globals.hh"
 
 class muDetectorConstruction;

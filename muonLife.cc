@@ -17,7 +17,7 @@
 #include "G4UImanager.hh"
 #include "G4VisExecutive.hh"
 #include "G4EmParameters.hh"
-#include "G4HadronicPhysicsProcessStore.hh"
+#include "G4HadronicProcessStore.hh"
 #include "G4PhysicsListHelper.hh"
 #include "G4StepLimiterPhysics.hh"
 #include "FTFP_BERT.hh"
@@ -35,9 +35,10 @@
 #include "G4CoupledTransportation.hh"
 #include "Randomize.hh"
 
-#include "G4BLineTracer.hh"
+#include "G4BlineTracer.hh"
 #include "muDetectorConstruction.hh"
 #include "muPhysicsList.hh"
+#include "muPrimaryGeneratorAction.hh"
 #include "muActionInitialization.hh"
 
 void PrintUsage() {
@@ -88,16 +89,20 @@ int main(int argc, char** argv) {
 #endif
 
   //set mandatory initialization classes
-  muDetectorConstruction* det= new muDetectorConstruction;
-  runManager->SetUserInitialization(det);
+  muDetectorConstruction* muDet= new muDetectorConstruction;
+  runManager->SetUserInitialization(muDet);
 
   G4BLineTracer* theBLineTool = new G4BLineTracer();
-  //muPhysicsList* phys = new muPhysicsList;
-  G4VModularPhysicsList*  physList = new FTFP_BERT;
-  physList->RegisterPhysics(new G4StepLimiterPhysics());
-  runManager->SetUserInitialization(physList);
-  
-  runManager->SetUserInitialization(new muActionInitialization(det));
+  muPhysicsList* muPhys = new muPhysicsList;
+  //G4VModularPhysicsList*  physList = new FTFP_BERT;
+  //physList->RegisterPhysics(new G4StepLimiterPhysics());
+  //runManager->SetUserInitialization(physList);
+  runManager->SetUserInitialization(muPhys);
+
+  muPrimaryGeneratorAction* muPrim = new muPrimaryGeneratorAction(det);
+  runManager->SetUserInitialization(muPrim);
+
+  runManager->SetUserInitialization(new muActionInitialization(muDet, muPrim));
   runManager->Initialize();
 
   //initialize visualization
