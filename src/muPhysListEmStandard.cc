@@ -2,24 +2,24 @@
 //*  Muon decay while passing through parmanent magnet *
 //*                                                    *
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
-//*  \file PhysListEmStandard.cc                                 *
+//*  \file muPhysListEmStandard.cc                     *
 //* ****************************************************
-//  $Id: PhysListEmStandard.cc Feb 13, 2019 11:47:08Z vega $
+//  $Id: muPhysListEmStandard.cc Feb 13, 2019 11:47:08Z vega $
 
-#include "PhysListEmStandard.hh"
+#include "muPhysListEmStandard.hh"
 
-PhysListEmStandard::PhysListEmStandard(const G4String& name) : G4VPhysicsConstructor(name) {
+muPhysListEmStandard::muPhysListEmStandard(const G4String& name) : G4VPhysicsConstructor(name) {
   G4EmParameters* param = G4EmParameters::Instance();
   param->SetDefaults();
   param->SetMinEnergy(100.0*eV);
   param->SetMaxEnergy(1000.0*PeV);
 }
 
-PhysListEmStandard::~PhysListEmStandard() {
+muPhysListEmStandard::~muPhysListEmStandard() {
 
 }
 
-void PhysListEmStandard::ConstructProcess() {
+void muPhysListEmStandard::ConstructProcess() {
   // mu+
   G4ParticleDefinition* particle = G4MuonPlus::MuonPlus();
   G4ProcessManager* pmanager = particle->GetProcessManager();
@@ -54,5 +54,4 @@ void PhysListEmStandard::ConstructProcess() {
   pmanager->AddProcess(new G4hIonisation(),     -1, 2, 2);
   pmanager->AddProcess(new G4hBremsstrahlung(), -1, 3, 3);
   pmanager->AddProcess(new G4hPairProduction(), -1, 4, 4);
-
 }

@@ -2,11 +2,14 @@
 //*  Muon decay while passing through parmanent magnet *
 //*                                                    *
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
-//*  \file muPrimaryGeneratorAction.cc                                 *
+//*  \file muPrimaryGeneratorAction.cc                 *
 //* ****************************************************
 //  $Id: muPrimaryGeneratorAction.cc Feb 02, 2019 11:47:08Z vega $
 
-muPrimaryGeneratorAction::muPrimaryGeneratorAction(muDetectorConstruction* det) : G4VUserPrimaryGeneratorAction(), fParticleGun(0), fDetector(det) {
+#include "muPrimaryGeneratorAction.hh"
+
+muPrimaryGeneratorAction::muPrimaryGeneratorAction(muDetectorConstruction* det)
+ : G4VUserPrimaryGeneratorAction(), fParticleGun(0), fDetector(det) {
   G4int n_Particle = 1;
   fParticleGun = new G4ParticleGun(n_Particle);
   G4ParticleDefinition* particle = G4ParticleTable::GetParticleTable()->FindParticle("mu-");

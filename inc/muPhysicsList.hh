@@ -2,20 +2,19 @@
 //*  Muon decay while passing through parmanent magnet *
 //*                                                    *
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
-//*  \file muPhysicsList.hh                                 *
+//*  \file muPhysicsList.hh                            *
 //* ****************************************************
 //  $Id: muPhysicsList.hh Feb 13, 2019 15:25:08Z vega $
 #ifndef muPhysicsList_H
 #define muPhysicsList_H 1
 
+#include "muNuclearBuilder.hh"
+#include "muPhysListEmStandard.hh"
+
 #include "G4VModularPhysicsList.hh"
 #include "G4EmStandardPhysics.hh"
 #include "G4EmStandardPhysics_option4.hh"
-#include "PhysListEmStandard.hh"
-#include "MuNuclearBuilder.hh"
-
 #include "G4EmParameters.hh"
-
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
 #include "G4Positron.hh"

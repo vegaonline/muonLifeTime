@@ -2,6 +2,8 @@
 //*  Muon decay while passing through parmanent magnet *
 //*                                                    *
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
+//*  Example TestEm17 was considered grossly           *
+//*  Example Fields considered for field mapping       *
 //*  \file muonLife.cc                                 *
 //* ****************************************************
 //  $Id: muonLife.cc Feb 01, 2019 15:25:08Z vega $

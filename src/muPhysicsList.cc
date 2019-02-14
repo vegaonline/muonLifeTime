@@ -1,7 +1,7 @@
 //*  Muon decay while passing through parmanent magnet *
 //*                                                    *
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
-//*  \file muPhysicsList.cc                                 *
+//*  \file muPhysicsList.cc                            *
 //* ****************************************************
 //  $Id: muPhysicsList.cc Feb 02, 2019 22:47:08Z vega $
 
@@ -76,9 +76,9 @@ void muPhysicsList::AddPhysicsList(const G4String& name) {
   } else if (name == "local") {
     fEmName = name;
     delete fEmPhysicsList;
-    fEmPhysicsList = new PhysListEmStandard(name);
+    fEmPhysicsList = new muPhysListEmStandard(name);
   } else if (name == "muNucl") {
-    fMuNuclPhysicsList = new MuNuclearBuilder(name);
+    fMuNuclPhysicsList = new muNuclearBuilder(name);
   } else {
     G4cout << "muPhysicsList::AddPhysicsList: < " << name << " >  is not defined." << G4endl;
   }

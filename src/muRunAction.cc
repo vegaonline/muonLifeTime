@@ -2,7 +2,7 @@
 //*  Muon decay while passing through parmanent magnet *
 //*                                                    *
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
-//*  \file muRunAction.cc                                 *
+//*  \file muRunAction.cc                              *
 //* ****************************************************
 //  $Id: muRunAction.cc Feb 02, 2019 11:47:08Z vega $
 
@@ -29,5 +29,10 @@ void muRunAction::EndOfRunAction(const G4Run* aRun){
 
   G4String Particle = fPrimary->GetParticleGun()->GetParticleDefinition()->GetParticleName();
   G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
+  G4cout << "\n The run consists of "           << NbOfEvents << " "<< particle << " of "
+         << G4BestUnit(energy," Energy")        << " through "
+         << G4BestUnit(length," Length")        << " of "
+         << material->GetName()                 << " (density: "
+         << G4BestUnit(density," Volumic Mass") << ")" << G4endl;
 
 }

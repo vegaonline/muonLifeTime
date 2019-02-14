@@ -2,7 +2,7 @@
 //*  Muon decay while passing through parmanent magnet *
 //*                                                    *
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
-//*  \file muDetectorConstruction.hh                                 *
+//*  \file muDetectorConstruction.hh                   *
 //* ****************************************************
 //  $Id: muDetectorConstruction.hh Feb 01, 2019 15:25:08Z vega $
 #ifndef muDetectorConstruction_H
