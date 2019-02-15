@@ -41,7 +41,8 @@
 #include "muDetectorConstruction.hh"
 #include "muPhysicsList.hh"
 #include "muPrimaryGeneratorAction.hh"
-#include "muActionInitialization.hh"
+//             #include "muActionInitialization.hh"
+#include "muRunAction.hh"
 
 void PrintUsage() {
   G4cerr << G4endl;

@@ -8,6 +8,10 @@
 
 #include "muDetectorConstruction.hh"
 
+G4ThreadLocal G4FieldManager* muDetectorConstruction::fFieldMgr = 0;
+G4ThreadLocal muMagneticField* muDetectorConstruction::fMagneticField = 0;
+
+
 muDetectorConstruction::muDetectorConstruction()
 : G4VUserDetectorConstruction(), fDetectorMaterial(0), fLogicDetector(0),
   fMagnetMaterial(0), fLogicMagnet(0), fDetMessenger(0), fPhysicalWorld(0) {
@@ -48,6 +52,16 @@ muDetectorConstruction::~muDetectorConstruction() {
 
 G4VPhysicalVolume* muDetectorConstruction::Construct() {
   return ConstructVolumes();
+}
+
+void muDetectorConstruction::ConstructSDandField() {
+  auto sdManager = G4SDManager::GetSDMpointer();
+  fMagneticField = new muMagneticField();
+  fFieldMgr = new G4FieldManager();
+  fFieldMgr->SetDetectorField(fMagneticField);
+  fFieldMgr->CreateChordFinder(fMagneticField);
+  G4bool forceToAllDaughters = true;
+  
 }
 
 void muDetectorConstruction::DefineMaterials() {
@@ -123,7 +137,6 @@ void muDetectorConstruction::PrintParameters() {
   }
   G4cout << " Magnet Plate"  << " Length = " << fMagnetPlateLength
          << " Thickness = " << fMagnetPlateThickness << " Width = " << fMagnetPlateWidth << G4endl;
-
 }
 
 void muDetectorConstruction::SetDetectorLength(G4double value) {
@@ -141,7 +154,7 @@ void muDetectorConstruction::SetDetectorThickness(G4double value){
   G4RunManager::GetRunManager()->ReInitializeGeometry();
 }
 
-void muDetectorConstruction::SetDetectorMaterial(G4String matChoice) {
+void muDetectorConstruction::SetDetectorMaterial(G4String& matChoice) {
   G4Material* pt2Material = G4Material::GetMaterial(matChoice);
   if (pt2Material) fDetectorMaterial = pt2Material;
 }
@@ -161,12 +174,17 @@ void muDetectorConstruction::SetMagnetPlateThickness(G4double value){
   G4RunManager::GetRunManager()->ReInitializeGeometry();
 }
 
+void muDetectorConstruction::SetMagnetPlateMaterial(G4String& matChoice) {
+  G4Material* pt2Material = G4Material::GetMaterial(matChoice);
+  if (pt2Material) fMagnetPlateMaterial = pt2Material;
+}
+
 void muDetectorConstruction::SetMagnetPlateGap(G4double value){
   fMagnetPlateGap = value;
   G4RunManager::GetRunManager()->ReInitializeGeometry();
 }
 
-void muDetectorConstruction::SetMagnetPlateGapMaterial(G4String matChoice) {
+void muDetectorConstruction::SetMagnetPlateGapMaterial(G4String& matChoice) {
   G4Material* pt2Material = G4Material::GetMaterial(matChoice);
   if (pt2Material) fMagnetPlateGapMaterial = pt2Material;
 }

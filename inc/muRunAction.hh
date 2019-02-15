@@ -8,7 +8,7 @@
 #ifndef muRunAction_H
 #define muRunAction_H 1
 
-#include "G4VUserRunAction.hh"
+#include "G4UserRunAction.hh"
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"

@@ -44,7 +44,7 @@ public:
 
 private:
   G4VPhysicsConstructor* fEmPhysicsList;
-  G4G4VPhysicsConstructor* fMuNuclPhysicsList;
+  G4VPhysicsConstructor* fMuNuclPhysicsList;
   G4String fEmName;
 
 

@@ -11,7 +11,7 @@
 #include "G4VPhysicsConstructor.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4MuonPlus.hh"
-#include "G4MUonMinus.hh"
+#include "G4MuonMinus.hh"
 #include "G4ProcessManager.hh"
 #include "G4MuonNuclearProcess.hh"
 #include "G4MuonVDNuclearModel.hh"

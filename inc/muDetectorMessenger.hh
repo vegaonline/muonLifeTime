@@ -9,7 +9,7 @@
 #define muDetectorMessenger_H 1
 
 #include "G4UImessenger.hh"
-#include "DetectorConstruction.hh"
+#include "muDetectorConstruction.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
@@ -38,7 +38,7 @@ private:
   G4UIcmdWithAString* fMatterCmd;
   G4UIcmdWithADoubleAndUnit* fSizeCmd;
   G4UIcmdWithADoubleAndUnit* fMagFieldCmd;
-  G4G4UIcmdWithoutParameter* fUpdateCmd;
+  G4UIcmdWithoutParameter* fUpdateCmd;
 };
 
 #endif
