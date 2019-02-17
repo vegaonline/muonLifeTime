@@ -95,14 +95,14 @@ int main(int argc, char** argv) {
   muDetectorConstruction* muDet= new muDetectorConstruction;
   runManager->SetUserInitialization(muDet);
 
-  G4BLineTracer* theBLineTool = new G4BLineTracer();
+  //G4BLineTracer* theBLineTool = new G4BLineTracer();
   muPhysicsList* muPhys = new muPhysicsList;
   //G4VModularPhysicsList*  physList = new FTFP_BERT;
   //physList->RegisterPhysics(new G4StepLimiterPhysics());
   //runManager->SetUserInitialization(physList);
   runManager->SetUserInitialization(muPhys);
 
-  muPrimaryGeneratorAction* muPrim = new muPrimaryGeneratorAction(det);
+  muPrimaryGeneratorAction* muPrim = new muPrimaryGeneratorAction(muDet);
   runManager->SetUserInitialization(muPrim);
 
   runManager->SetUserInitialization(new muActionInitialization(muDet, muPrim));

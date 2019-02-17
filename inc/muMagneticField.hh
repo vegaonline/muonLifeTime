@@ -20,7 +20,7 @@ class G4GenericMessenger;
 class muMagneticField : public G4MagneticField{
 public:
   muMagneticField();
-  virtual muMagneticField();
+  virtual ~muMagneticField();
 
 public:
   void SetField(G4double, G4double, G4double);
@@ -31,7 +31,7 @@ public:
 
 private:
   void DefineCommands();
-  std::vector<G4double> fMagField[3];
+  std::vector<G4double> fMagField;
   G4GenericMessenger* fMessenger;
   G4double fBX, fBY, fBZ;
 };

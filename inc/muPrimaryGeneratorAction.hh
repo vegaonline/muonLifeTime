@@ -4,8 +4,8 @@
 //*  Abhijit Bhattacharyya, NPD, BARC                  *
 //*  \file muPrimaryGeneratorAction.hh                 *
 //* ****************************************************
-//  $Id: muNuclearBuilder.hh Feb 14, 2019 10:25:08Z vega $
-#ifndef muPrimaryGeneratorActionr_H
+//  $Id: muPrimaryGeneratorAction.hh Feb 14, 2019 10:25:08Z vega $
+#ifndef muPrimaryGeneratorAction_H
 #define muPrimaryGeneratorAction_H 1
 
 #include "muDetectorConstruction.hh"

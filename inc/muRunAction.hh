@@ -36,8 +36,8 @@ public:
   virtual void EndOfRunAction(const G4Run*);
 
 private:
-  G4double ComputeTheory(G4String, G4int)    {};
-  G4double GetEnergyCut(G4Material*, G4int)  {};
+  G4double ComputeTheory(G4String, G4int) ;
+  G4double GetEnergyCut(G4Material*, G4int);
 
 private:
   muDetectorConstruction* fDetector;

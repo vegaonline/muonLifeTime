@@ -53,7 +53,7 @@ public:
   void SetMagnetPlateThickness(G4double);
   void SetMagnetPlateGap(G4double);
   void SetMagnetPlateMaterial(G4String&);
-  void SetMagnetPlateGapMaterial(G4String&);
+  
 
   muDetectorMessenger* fDetMessenger;
 
@@ -69,7 +69,7 @@ public:
   G4double GetMagnetLength()          const { return fMagnetPlateLength; }
   G4double GetMagnetWidth()           const { return fMagnetPlateWidth; }
   G4double GetMagnetThickness()       const { return fMagnetPlateThickness; }
-  G4Material* GetMagnetMaterial()           { return fMagnetMaterial; }
+  G4Material* GetMagnetPlateMaterial()           { return fMagnetPlateMaterial; }
   G4LogicalVolume* GetLogicMagnet()         { return fLogicMagnet; }
 
 private:
