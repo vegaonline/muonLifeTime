@@ -53,7 +53,6 @@ public:
   void SetMagnetPlateThickness(G4double);
   void SetMagnetPlateGap(G4double);
   void SetMagnetPlateMaterial(G4String&);
-  
 
   muDetectorMessenger* fDetMessenger;
 
@@ -77,12 +76,12 @@ private:
   G4VPhysicalVolume* ConstructVolumes();
 
 private:
-  static G4ThreadLocal G4FieldManager* fFieldMgr;
   static G4ThreadLocal muMagneticField* fMagneticField;
+  static G4ThreadLocal G4FieldManager* fFieldMgr;
 
   G4int fNumDetector;  // Total number of detectors of same size used
-  G4int *fDetPlaced;    // position of i-th detector : 0 if above magnet and 1 if below magnet
-  G4double *fDistDetMagnet; // Distance of i-th detector from center of magnet
+  std::vector<G4int>    fDetPlaced;    // position of i-th detector : 0 if above magnet and 1 if below magnet
+  std::vector<G4double> fDistDetMagnet; // Distance of i-th detector from center of magnet
 
   G4double fDetectorLength; // Length of each detector
   G4double fDetectorWidth;  // Width of each detector

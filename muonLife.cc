@@ -38,6 +38,7 @@
 #include "Randomize.hh"
 
 #include "G4BlineTracer.hh"
+
 #include "muDetectorConstruction.hh"
 #include "muPhysicsList.hh"
 #include "muPrimaryGeneratorAction.hh"
@@ -92,20 +93,22 @@ int main(int argc, char** argv) {
 #endif
 
   //set mandatory initialization classes
-  muDetectorConstruction* muDet= new muDetectorConstruction;
+  auto muDet= new muDetectorConstruction;
   runManager->SetUserInitialization(muDet);
 
   //G4BLineTracer* theBLineTool = new G4BLineTracer();
-  muPhysicsList* muPhys = new muPhysicsList;
+  auto muPhys = new muPhysicsList;
   //G4VModularPhysicsList*  physList = new FTFP_BERT;
   //physList->RegisterPhysics(new G4StepLimiterPhysics());
   //runManager->SetUserInitialization(physList);
   runManager->SetUserInitialization(muPhys);
 
-  muPrimaryGeneratorAction* muPrim = new muPrimaryGeneratorAction(muDet);
-  runManager->SetUserInitialization(muPrim);
+  auto muPrim = new muPrimaryGeneratorAction(muDet);
+  runManager->SetUserAction(muPrim);
 
-  runManager->SetUserInitialization(new muActionInitialization(muDet, muPrim));
+  auto muRun = new muRunAction(muDet, muPrim);
+  runManager->SetUserAction(muRun);
+  //runManager->SetUserInitialization(new muActionInitialization(muDet, muPrim));
   runManager->Initialize();
 
   //initialize visualization
@@ -125,7 +128,7 @@ int main(int argc, char** argv) {
 #endif
     ui->SessionStart();
     delete ui;
-    delete theBLineTool;
+    //  delete theBLineTool;
   }
 
   G4GeometryManager::GetInstance()->OpenGeometry();

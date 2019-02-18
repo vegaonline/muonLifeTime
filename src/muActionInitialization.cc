@@ -22,7 +22,7 @@ void muActionInitialization::BuildForMaster() const {
 }
 
 void muActionInitialization::Build() const {
-  muPrimaryGeneratorAction* muPrimary = new muPrimaryGeneratorAction();
+  muPrimaryGeneratorAction* muPrimary = new muPrimaryGeneratorAction(fDetector);
   SetUserAction(muPrimary);
 
   muRunAction* muRAction = new muRunAction(fDetector, muPrimary);

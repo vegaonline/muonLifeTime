@@ -8,9 +8,8 @@
 
 #include "muDetectorConstruction.hh"
 
-G4ThreadLocal G4FieldManager* muDetectorConstruction::fFieldMgr = 0;
 G4ThreadLocal muMagneticField* muDetectorConstruction::fMagneticField = 0;
-
+G4ThreadLocal G4FieldManager* muDetectorConstruction::fFieldMgr = 0;
 
 muDetectorConstruction::muDetectorConstruction()
 : G4VUserDetectorConstruction(), fDetectorMaterial(0), fLogicDetector(0),
@@ -26,14 +25,14 @@ muDetectorConstruction::muDetectorConstruction()
     fMagnetPlateGap       = 40.0 * mm;
     fNumDetector          = 2;
     fDetPlaced.push_back(1);
-    fTmpGap = (50.0 * mm) + fMagnetPlateThickness + 0.5 * fMagnetPlateGap);  // D_detMag + H_MagPlate + 0.5 * MagPlatesGap
-    fDistDetMagnet.push_back(tmpGap);  // Det#1 above magnet
+    fTmpGap = 50.0 * mm + fMagnetPlateThickness + 0.5 * fMagnetPlateGap;  // D_detMag + H_MagPlate + 0.5 * MagPlatesGap
+    fDistDetMagnet.push_back(fTmpGap);  // Det#1 above magnet
     fDetPlaced.push_back(-1);
-    fTmpGap = (150.0 * mm) + fMagnetPlateThickness + 0.5 * fMagnetPlateGap);
-    fDistDetMagnet.push_back(tmpGap);  // Det#2 below magnet
+    fTmpGap = 150.0 * mm + fMagnetPlateThickness + 0.5 * fMagnetPlateGap;
+    fDistDetMagnet.push_back(fTmpGap);  // Det#2 below magnet
     G4double fMaxY = 0.0;
     for (G4int ii = 0; ii < fNumDetector; ii++) {
-      fMaxY = std::max(maxY, fDistDetMagnet[ii] + fDetectorThickness);
+      fMaxY = std::max(fMaxY, fDistDetMagnet[ii] + fDetectorThickness);
     }
 
     fWorldLength = 1.4 * std::max(fDetectorLength, fMagnetPlateLength);
@@ -55,7 +54,7 @@ G4VPhysicalVolume* muDetectorConstruction::Construct() {
 }
 
 void muDetectorConstruction::ConstructSDandField() {
-  auto sdManager = G4SDManager::GetSDMpointer();
+  //auto sdManager = G4SDManager::GetSDMpointer();
   fMagneticField = new muMagneticField();
   fFieldMgr = new G4FieldManager();
   fFieldMgr->SetDetectorField(fMagneticField);

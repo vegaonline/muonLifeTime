@@ -22,7 +22,7 @@ public:
   ~muCrossSection();
 public:
   G4double CR_Macroscopic (const G4String&, G4Material*, G4double, G4double);
-  G4double CR_PerAtom (const G4String&, G4Material*, G4double, G4double);
+  G4double CR_PerAtom (const G4String&, G4Element*, G4double, G4double);
 
 private:
   G4double CRB_Mephi (G4double, G4double, G4double, G4double);

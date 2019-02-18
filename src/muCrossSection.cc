@@ -329,11 +329,11 @@ double muCrossSection::CRP_Mephi(double z,double a,double tkin,double ep)
           {
             be=(3.0-a6+a1*a7)/(2.0*xi); // -(6.-5.*a6+3.*bet*a6)/(6.*xi*xi);
           }
-          fe=max(0.0,(ale-cre)*be);
+          fe=std::max(0.0,(ale-cre)*be);
           ymu=4.0+a6+3.0*bet*a7;
           ymd=a7*(1.5+a1)*log(3.0+xi)+1.0-1.5*a6;
           ym1=1.0+ymu/ymd;
-          alm_crm=log(bbb*rmass/(1.5*z13*z13*(1.0+screen*ym1)));
+          alm_crm=std::log(bbb*rmass/(1.5*z13*z13*(1.0+screen*ym1)));
           if(xi >= 1e-3) //
           {
             a10=(1.0+a1)*a5; // (1+2b)(1-r2)
@@ -343,7 +343,7 @@ double muCrossSection::CRP_Mephi(double z,double a,double tkin,double ep)
           {
             bm=(5.0-a6+bet*a9)*(xi/2.0); // -(11.-5.*a6+.5*bet*(5.+a6))*(xi*xi/6.)
           }
-          fm=max(0.0,(alm_crm)*bm);
+          fm=std::max(0.0,(alm_crm)*bm);
 //***
           sum=sum+a4*(fe+fm/(rmass*rmass))*wgi[i];
         }

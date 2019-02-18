@@ -8,7 +8,7 @@
 
 #include "muMagneticField.hh"
 
-muMagneticField::muMagneticField : G4MagneticField(), fMessenger(0), fBX(0.0*tesla), fBY(1.0*tesla), fBZ(0.0*tesla){
+muMagneticField::muMagneticField() : G4MagneticField(), fMessenger(0), fBX(0.0*tesla), fBY(1.0*tesla), fBZ(0.0*tesla){
   SetField(fBX, fBY, fBZ);
   DefineCommands();
 }
