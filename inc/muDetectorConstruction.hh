@@ -13,6 +13,8 @@
 #include "G4Box.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
+#include "G4AssemblyVolume.hh"
+#include "G4AssemblyStore.hh"
 #include "G4GeometryManager.hh"
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
@@ -22,6 +24,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4FieldManager.hh"
 #include "G4NistManager.hh"
+#include "G4RunManager.hh"
 #include "globals.hh"
 #include <vector>
 
@@ -56,20 +59,22 @@ public:
 
   muDetectorMessenger* fDetMessenger;
 
+  void InitMeasurement();
   void UpdateGeometry();
   void PrintParameters();
 
-  G4int GetNumberOfDetectors()        const { return fNumDetector; }
-  G4double GetDetectorLength()        const { return fDetectorLength; }
-  G4double GetDetectorWidth()         const { return fDetectorWidth; }
-  G4double GetDetectorThickness()     const { return fDetectorThickness; }
-  G4Material* GetDetectorMaterial()         { return fDetectorMaterial; }
-  G4LogicalVolume* GetLogicDetector()       { return fLogicDetector; }
-  G4double GetMagnetLength()          const { return fMagnetPlateLength; }
-  G4double GetMagnetWidth()           const { return fMagnetPlateWidth; }
-  G4double GetMagnetThickness()       const { return fMagnetPlateThickness; }
-  G4Material* GetMagnetPlateMaterial()           { return fMagnetPlateMaterial; }
-  G4LogicalVolume* GetLogicMagnet()         { return fLogicMagnet; }
+  G4int GetNumberOfDetectors()                  const { return fNumDetector; }
+  G4double GetDetectorLength()                  const { return fDetectorLength; }
+  G4double GetDetectorWidth()                   const { return fDetectorWidth; }
+  G4double GetDetectorThickness()               const { return fDetectorThickness; }
+  G4Material* GetDetectorMaterial()                   { return fDetectorMaterial; }
+  G4int GetLogicDetectorNumber()                const { return fLogicDetector.size(); }
+  G4LogicalVolume* GetLogicDetector(G4int iTag)       { return fLogicDetector[iTag]; }
+  G4double GetMagnetLength()                    const { return fMagnetPlateLength; }
+  G4double GetMagnetWidth()                     const { return fMagnetPlateWidth; }
+  G4double GetMagnetThickness()                 const { return fMagnetPlateThickness; }
+  G4Material* GetMagnetPlateMaterial()                { return fMagnetPlateMaterial; }
+  G4LogicalVolume* GetLogicMagnet()                   { return fLogicMagnet; }
 
 private:
   void DefineMaterials();
@@ -87,7 +92,8 @@ private:
   G4double fDetectorWidth;  // Width of each detector
   G4double fDetectorThickness; // Thickness of each detector
   G4Material* fDetectorMaterial;
-  G4LogicalVolume* fLogicDetector;
+  std::vector<G4LogicalVolume*> fLogicDetector;
+  G4double fSetupTopHt;
 
   G4double fMagnetPlateLength;  // Length of Magnet
   G4double fMagnetPlateWidth;   // Width of Magnet
@@ -95,6 +101,9 @@ private:
   G4double fMagnetPlateGap;     // Gap of Magnet
   G4Material* fMagnetPlateMaterial;
   G4LogicalVolume* fLogicMagnet;
+  
+  G4ThreeVector Ta, Tm;
+  G4RotationMatrix Ra, Rm;
 
   G4double fWorldLength;
   G4double fWorldWidth;
@@ -103,6 +112,10 @@ private:
   G4Material* fWorldMaterial;
   G4LogicalVolume* lWorld;
   G4VPhysicalVolume* fPhysicalWorld;
+
+  G4Material* air;
+  G4Material* scintillator;
+  G4Material* steel;
 
 };
 
