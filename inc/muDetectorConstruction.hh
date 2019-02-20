@@ -32,6 +32,7 @@
 #include "muMagneticField.hh"
 
 class G4LogicalVolume;
+class G4AssemblyVolume;
 class G4Material;
 class muDetectorMessenger;
 class muMagneticField;
@@ -101,16 +102,14 @@ private:
   G4double fMagnetPlateGap;     // Gap of Magnet
   G4Material* fMagnetPlateMaterial;
   G4LogicalVolume* fLogicMagnet;
-  
+
   G4ThreeVector Ta, Tm;
   G4RotationMatrix Ra, Rm;
 
   G4double fWorldLength;
   G4double fWorldWidth;
   G4double fWorldThickness;
-  G4Box*  sWorld;
   G4Material* fWorldMaterial;
-  G4LogicalVolume* lWorld;
   G4VPhysicalVolume* fPhysicalWorld;
 
   G4Material* air;

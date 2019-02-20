@@ -37,13 +37,15 @@ void muDetectorConstruction::InitMeasurement(){
   fNumDetector          = 2;
   fDetPlaced.push_back(1);
   fTmpGap = 50.0 * mm + fMagnetPlateThickness + 0.5 * fMagnetPlateGap;  // D_detMag + H_MagPlate + 0.5 * MagPlatesGap
+  fTmpGap += 0.5 * fDetectorThickness;     // this shows distance of centre of det from center of magnet
   fDistDetMagnet.push_back(fTmpGap);  // Det#1 above magnet
   fDetPlaced.push_back(-1);
   fTmpGap = 150.0 * mm + fMagnetPlateThickness + 0.5 * fMagnetPlateGap;
+  fTmpGap += 0.5 * fDetectorThickness;    // this shows distance of centre of det from center of magnet
   fDistDetMagnet.push_back(fTmpGap);  // Det#2 below magnet
   G4double fMaxY = 0.0;
   for (G4int ii = 0; ii < fNumDetector; ii++) {
-    fMaxY = std::max(fMaxY, fDistDetMagnet[ii] + fDetectorThickness);
+    fMaxY = std::max(fMaxY, fDistDetMagnet[ii] + 0.5 * fDetectorThickness);  // as fDistDetMagnet is at centre of det
   }
   fWorldLength = 1.4 * std::max(fDetectorLength, fMagnetPlateLength);
   fWorldWidth = 1.4 * std::max(fDetectorWidth, fMagnetPlateWidth);
@@ -101,8 +103,8 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   fDetectorMaterial = scintillator;
 
   // The World
-  sWorld = new G4Box("WorldLab", 0.5 * fWorldLength, 0.5 * fWorldThickness, 0.5 * fWorldWidth);
-  lWorld  = new G4LogicalVolume(sWorld, fWorldMaterial, "World");
+  auto sWorld = new G4Box("WorldLab", 0.5 * fWorldLength, 0.5 * fWorldThickness, 0.5 * fWorldWidth);
+  auto lWorld  = new G4LogicalVolume(sWorld, fWorldMaterial, "World");
   fPhysicalWorld = new G4PVPlacement(0, G4ThreeVector(), lWorld, "World", 0, false, 0);
 
   // Detectors
@@ -112,8 +114,8 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
     auto detectorBox = new G4Box(detname, 0.5 * fDetectorLength, 0.5 * fDetectorThickness, 0.5 * fDetectorWidth);
     auto detLogic = new G4LogicalVolume(detectorBox, fDetectorMaterial, detname);
     fLogicDetector.push_back(detLogic);
-    G4double yCoord = fDetPlaced[ii] * (fDistDetMagnet[ii] + 0.5 * fDetectorThickness);
-    fSetupTopHt = std::max(fSetupTopHt, std::abs(yCoord + 0.5 * fDetPlaced[ii] * fDetectorThickness));
+    G4double yCoord = fDetPlaced[ii] * fDistDetMagnet[ii] ;
+    fSetupTopHt = std::max(fSetupTopHt, std::abs(yCoord) + 0.5 * fDetPlaced[ii] * fDetectorThickness);
     new G4PVPlacement(0, G4ThreeVector(0.0, yCoord, 0.0), detLogic, detname, lWorld, false, 0);
   }
 
@@ -122,7 +124,7 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   auto MagPlateL = new G4LogicalVolume(magBox, fMagnetPlateMaterial, "MagnetPlate");  // Plate 1 is at +Y && Plate 2 is at -Y
   auto fMagnetAssembly = new G4AssemblyVolume();
   Ta.setX(0.0); Ta.setY(0.5 * fMagnetPlateGap); Ta.setZ(0.0);
-  fMagnetAssembly->AddPlacedVolume(MagPlateL, G4Transform3D(Ra, Ta));
+  fMagnetAssembly->AddPlacedVolume(MagPlateL, Ta, Ra);
   Ta.setX(0.0); Ta.setY(-0.5 * fMagnetPlateGap); Ta.setZ(0.0);
   fMagnetAssembly->AddPlacedVolume(MagPlateL, G4Transform3D(Ra, Ta));
   fMagnetAssembly->MakeImprint(lWorld, Tm, Rm);
@@ -136,7 +138,7 @@ void muDetectorConstruction::PrintParameters() {
   for (G4int ii = 0; ii < fNumDetector; ii++) {
     G4cout << " Detector #"   << ii << " Length = "  << fDetectorLength
            << " Thickness = " << fDetectorThickness  << " Width = " << fDetectorWidth
-           << " Distance from center of the magnet  "<<  fDetPlaced * (fDistDetMagnet[ii] + 0.5 * fDetectorThickness) << G4endl;
+           << " Distance from center of the magnet  "<<  fDetPlaced[ii] * (fDistDetMagnet[ii] + 0.5 * fDetectorThickness) << G4endl;
   }
   G4cout << " Magnet Plate"  << " Length = " << fMagnetPlateLength
          << " Thickness = " << fMagnetPlateThickness << " Width = " << fMagnetPlateWidth << G4endl;
