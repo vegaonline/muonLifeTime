@@ -8,8 +8,8 @@
 
 #include "muDetectorConstruction.hh"
 
-G4ThreadLocal muMagneticField* muDetectorConstruction::fMagneticField = 0;
-G4ThreadLocal G4FieldManager* muDetectorConstruction::fFieldMgr = 0;
+//G4ThreadLocal muMagneticField* muDetectorConstruction::fMagneticField = 0;
+//G4ThreadLocal G4FieldManager* muDetectorConstruction::fFieldMgr = 0;
 
 muDetectorConstruction::muDetectorConstruction()
 : G4VUserDetectorConstruction(), fDetectorMaterial(0), fLogicDetector(0),
@@ -18,7 +18,6 @@ muDetectorConstruction::muDetectorConstruction()
     DefineMaterials();
     fDetMessenger = new muDetectorMessenger(this);
   }
-
 
 muDetectorConstruction::~muDetectorConstruction() {
     delete fDetMessenger;
@@ -59,10 +58,7 @@ G4VPhysicalVolume* muDetectorConstruction::Construct() {
 void muDetectorConstruction::ConstructSDandField() {
   //auto sdManager = G4SDManager::GetSDMpointer();
   fMagneticField = new muMagneticField();
-  fFieldMgr = new G4FieldManager();
-  fFieldMgr->SetDetectorField(fMagneticField);
-  fFieldMgr->CreateChordFinder(fMagneticField);
-  G4bool forceToAllDaughters = true;
+
 
 }
 
