@@ -15,6 +15,8 @@
 #include "G4PVPlacement.hh"
 #include "G4AssemblyVolume.hh"
 #include "G4GeometryManager.hh"
+#include "G4RotationMatrix.hh"
+#include "G4Transform3D.hh"
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
@@ -22,8 +24,10 @@
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4FieldManager.hh"
+#include "G4UniformMagField.hh"
 #include "G4NistManager.hh"
 #include "G4RunManager.hh"
+#include "G4AutoDelete.hh"
 #include "globals.hh"
 #include <vector>
 
@@ -35,6 +39,7 @@ class G4AssemblyVolume;
 class G4Material;
 class muDetectorMessenger;
 class muMagneticField;
+class G4UniformMagField;
 class G4GenericMessenger;
 
 class muDetectorConstruction : public G4VUserDetectorConstruction{
@@ -101,9 +106,6 @@ private:
   G4double fMagnetPlateGap;     // Gap of Magnet
   G4Material* fMagnetPlateMaterial;
   G4LogicalVolume* fLogicMagnet;
-
-  G4ThreeVector Ta, Tm;
-  G4RotationMatrix Ra, Rm;
 
   G4double fWorldLength;
   G4double fWorldWidth;

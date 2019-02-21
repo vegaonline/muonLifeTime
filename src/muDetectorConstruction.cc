@@ -123,11 +123,13 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   auto magBox = new G4Box("MagnetPlate", 0.5 * fMagnetPlateLength, 0.5 * fMagnetPlateThickness, 0.5 * fMagnetPlateWidth);
   auto MagPlateL = new G4LogicalVolume(magBox, fMagnetPlateMaterial, "MagnetPlate");  // Plate 1 is at +Y && Plate 2 is at -Y
   auto fMagnetAssembly = new G4AssemblyVolume();
-  Ta.setX(0.0); Ta.setY(0.5 * fMagnetPlateGap); Ta.setZ(0.0);
+  G4ThreeVector Ta(0.0, 0.5 * fMagnetPlateGap, 0.0);
+  G4RotationMatrix* Ra;
   fMagnetAssembly->AddPlacedVolume(MagPlateL, Ta, Ra);
   Ta.setX(0.0); Ta.setY(-0.5 * fMagnetPlateGap); Ta.setZ(0.0);
-  fMagnetAssembly->AddPlacedVolume(MagPlateL, G4Transform3D(Ra, Ta));
-  fMagnetAssembly->MakeImprint(lWorld, Tm, Rm);
+  fMagnetAssembly->AddPlacedVolume(MagPlateL, Ta, Ra);
+  Ta.setX(0.0); Ta.setY(0.0); Ta.setZ(0.0);
+  fMagnetAssembly->MakeImprint(lWorld, Ta, Ra); // placing at the origin of the world volume
 
   PrintParameters();
   return fPhysicalWorld;
