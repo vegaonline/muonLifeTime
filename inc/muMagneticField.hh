@@ -28,16 +28,17 @@
 #include "G4RKG3_Stepper.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4TransportationManager.hh"
 #include "G4GenericMessenger.hh"
 #include <vector>
 
 class G4GenericMessenger;
-class G4G4FieldManager;
+class G4FieldManager;
 class G4ChordFinder;
 class G4Mag_UsualEqRhs;
 class G4MagIntegratorStepper;
 
-class muMagneticField : public G4MagneticField{
+class muMagneticField { // : public G4MagneticField{
 public:
   muMagneticField(); // A zero field
   virtual ~muMagneticField();
@@ -47,6 +48,7 @@ public:
   void CreateSteppers();
   void SetMinStep(G4double sstep)  { fMinStep = sstep; }
   void SetFieldValue(G4ThreeVector);
+  void SetLocalFieldValue(G4ThreeVector);
   void SetFieldYValue(G4double);
   G4ThreeVector GetGlobalFieldValue() const { return GetConstantFieldValue(fMagneticField); }
   void UpdateField();
@@ -67,6 +69,6 @@ protected:
   G4MagIntegratorStepper* fLocalStepper;
   G4int                   fStepperType;
   G4double                fMinStep;
-  //muFieldMessenger*      fFieldMessenger;
+  muMagnetMessenger*      fFieldMessenger;
 };
 #endif

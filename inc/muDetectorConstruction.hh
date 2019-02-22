@@ -72,6 +72,7 @@ public:
   G4double GetDetectorLength()                  const { return fDetectorLength; }
   G4double GetDetectorWidth()                   const { return fDetectorWidth; }
   G4double GetDetectorThickness()               const { return fDetectorThickness; }
+  G4double GetTopPosition()                     const { return fSetupTopHt; }
   G4Material* GetDetectorMaterial()                   { return fDetectorMaterial; }
   G4int GetLogicDetectorNumber()                const { return fLogicDetector.size(); }
   G4LogicalVolume* GetLogicDetector(G4int iTag)       { return fLogicDetector[iTag]; }

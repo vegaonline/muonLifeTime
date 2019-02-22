@@ -42,7 +42,6 @@ private:
 private:
   muDetectorConstruction* fDetector;
   muPrimaryGeneratorAction* fPrimary;
-
 };
 
 #endif

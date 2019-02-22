@@ -13,11 +13,11 @@ muMagneticField::muMagneticField()
     fEquation(0), fLocalEquation(0), fMagneticField(0), fLocalMagneticField(0),
     fStepper(0), fLocalStepper(0) //, fFieldMessenger(0)
     {
-      fMagneticField      = new G4UniformMagField(G4G4ThreeVector(0.0, 1.0*tesla, 0.0));
-      fLocalMagneticField = new G4UniformMagField(G4G4ThreeVector(0.0, 1.0*tesla, 0.0));
+      fMagneticField      = new G4UniformMagField(G4ThreeVector(0.0, 1.0*tesla, 0.0));
+      fLocalMagneticField = new G4UniformMagField(G4ThreeVector(0.0, 1.0*tesla, 0.0));
       //fFieldMessenger = new muFieldMessenger(this);
-      fEquation = new G4G4G4Mag_UsualEqRhs(fMagneticField);
-      fLocalEquation = new G4G4G4G4Mag_UsualEqRhs(fLocalMagneticField);
+      fEquation = new G4Mag_UsualEqRhs(fMagneticField);
+      fLocalEquation = new G4Mag_UsualEqRhs(fLocalMagneticField);
       fMinStep = 0.01*mm; // minimal step of 1 mm is default
       fStepperType = 4;   // ClassicalRK4 is default stepper
       fFieldManager = GetGlobalFieldManager();
@@ -37,8 +37,8 @@ void muMagneticField::UpdateField() {
   delete fChordFinder;
   fChordFinder = nullptr;
   delete fLocalChordFinder;
-  fLocalChordFinder = nullpr;
-  G4cout<<"muMagneticField::UpdateField> The minimal step is equal to " << fMinStep/mm << " mm" << G4endl;
+  fLocalChordFinder = nullptr;
+  G4cout<<"muMagneticField::UpdateField > The minimal step is equal to " << fMinStep/mm << " mm" << G4endl;
   G4cout<<"                              Stepper Type chosen = "        << fStepperType         << G4endl;
 
   // 2. This also deletes previous ones
@@ -162,7 +162,7 @@ G4FieldManager* muMagneticField::GetGlobalFieldManager(){
   return G4TransportationManager::GetTransportationManager()->GetFieldManager();
 }
 
-G4ThreeVector F03FieldSetup::GetConstantFieldValue(G4MagneticField* magneticField) const {
+G4ThreeVector muMagneticField::GetConstantFieldValue(G4MagneticField* magneticField) const {
   if ( ! magneticField ) return G4ThreeVector();
 
   static G4double fieldValue[6],  position[4];

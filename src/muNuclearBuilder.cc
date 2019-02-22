@@ -21,18 +21,19 @@ void muNuclearBuilder::ConstructProcess() {
   G4MuonVDNuclearModel* muNucModel = new G4MuonVDNuclearModel();
   muNucProcess->RegisterMe(muNucModel);
 
-  pManager = G4MuonPlus::MuonPLus()->GetProcessManager();
+  pManager = G4MuonPlus::MuonPlus()->GetProcessManager();
   pManager->AddDiscreteProcess(muNucProcess);
 
   pManager = G4MuonMinus::MuonMinus()->GetProcessManager();
   pManager->AddDiscreteProcess(muNucProcess);
-
-  G4ParticleDefinition* particle = G4MuonPLus::MuonPLus();       // Add standard EM process for MUON
-  G4ProcessManager* pManager = particle->GetProcessManager();
+/*
+  G4ParticleDefinition* particle = G4MuonPlus::MuonPlus();       // Add standard EM process for MUON
+  pManager = particle->GetProcessManager();
   pManager->AddProcess(new G4MuNuclearInteraction("muNucl"), -1, -1, 4);
 
   particle = G4MuonMinus::MuonMinus();
   pManager = particle->GetProcessManager();
 
   pManager->AddProcess(new G4MuNuclearInteraction("muNucl"), -1, -1, 4);
+  */
 }

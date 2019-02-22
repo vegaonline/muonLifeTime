@@ -36,7 +36,13 @@ private:
   G4UIdirectory* fMuonDetectorDir;
   G4UIdirectory* fMuonMagnetDir;
   G4UIcmdWithAString* fMatterCmd;
-  G4UIcmdWithADoubleAndUnit* fSizeCmd;
+  G4UIcmdWithADoubleAndUnit* fDetLenCmd;
+  G4UIcmdWithADoubleAndUnit* fDetWidCmd;
+  G4UIcmdWithADoubleAndUnit* fDetThkCmd;
+  G4UIcmdWithADoubleAndUnit* fMagLenCmd;
+  G4UIcmdWithADoubleAndUnit* fMagWidCmd;
+  G4UIcmdWithADoubleAndUnit* fMagThkCmd;
+  G4UIcmdWithADoubleAndUnit* fMagPlateGapCmd;
   G4UIcmdWithADoubleAndUnit* fMagFieldCmd;
   G4UIcmdWithoutParameter* fUpdateCmd;
 };

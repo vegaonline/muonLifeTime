@@ -6,6 +6,8 @@
 //* ****************************************************
 //  $Id: muRunAction.cc Feb 02, 2019 11:47:08Z vega $
 
+#include "muRunAction.hh"
+
 muRunAction::muRunAction(muDetectorConstruction* det, muPrimaryGeneratorAction* prim)
  : G4UserRunAction(), fDetector(det), fPrimary(prim) {
 
@@ -27,11 +29,14 @@ void muRunAction::EndOfRunAction(const G4Run* aRun){
   G4int NbOfEvents = aRun->GetNumberOfEvent();
   if (NbOfEvents == 0) return;
 
+  G4Material* material = fDetector->GetDetectorMaterial();
+  G4double lengthY = fDetector->GetDetectorThickness();
+  G4double density = material->GetDensity();
   G4String Particle = fPrimary->GetParticleGun()->GetParticleDefinition()->GetParticleName();
   G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
-  G4cout << "\n The run consists of "           << NbOfEvents << " "<< particle << " of "
+  G4cout << "\n The run consists of "           << NbOfEvents << " "<< Particle << " of "
          << G4BestUnit(energy," Energy")        << " through "
-         << G4BestUnit(length," Length")        << " of "
+         << G4BestUnit(lengthY," Length")        << " of "
          << material->GetName()                 << " (density: "
          << G4BestUnit(density," Volumic Mass") << ")" << G4endl;
 
