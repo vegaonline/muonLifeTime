@@ -11,11 +11,10 @@
 muMagneticField::muMagneticField()
   : fFieldManager(0), fLocalFieldManager(0), fChordFinder(0), fLocalChordFinder(0),
     fEquation(0), fLocalEquation(0), fMagneticField(0), fLocalMagneticField(0),
-    fStepper(0), fLocalStepper(0) //, fFieldMessenger(0)
-    {
+    fStepper(0), fLocalStepper(0), fFieldMessenger(0)     {
       fMagneticField      = new G4UniformMagField(G4ThreeVector(0.0, 1.0*tesla, 0.0));
       fLocalMagneticField = new G4UniformMagField(G4ThreeVector(0.0, 1.0*tesla, 0.0));
-      //fFieldMessenger = new muFieldMessenger(this);
+      fFieldMessenger = new muMagnetMessenger(this);
       fEquation = new G4Mag_UsualEqRhs(fMagneticField);
       fLocalEquation = new G4Mag_UsualEqRhs(fLocalMagneticField);
       fMinStep = 0.01*mm; // minimal step of 1 mm is default
@@ -29,7 +28,7 @@ muMagneticField::~muMagneticField(){
   delete fMagneticField;
   delete fChordFinder;
   delete fStepper;
-  //delete fFieldMessenger;
+  delete fFieldMessenger;
 }
 
 void muMagneticField::UpdateField() {

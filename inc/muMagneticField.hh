@@ -9,6 +9,8 @@
 #define muMagneticField_H 1
 
 #include "globals.hh"
+#include "muMagnetMessenger.hh"
+
 #include "G4MagneticField.hh"
 #include "G4UniformMagField.hh"
 #include "G4FieldManager.hh"
@@ -37,6 +39,7 @@ class G4FieldManager;
 class G4ChordFinder;
 class G4Mag_UsualEqRhs;
 class G4MagIntegratorStepper;
+class muMagnetMessenger;
 
 class muMagneticField { // : public G4MagneticField{
 public:
@@ -55,20 +58,20 @@ public:
   G4FieldManager* GetLocalFieldManager() { return fLocalFieldManager; }
 
 protected:
-  G4FieldManager* GetGlobalFieldManager();
-  G4ThreeVector   GetConstantFieldValue(G4MagneticField* ) const;
-  G4FieldManager*         fFieldManager;
-  G4FieldManager*         fLocalFieldManager;
-  G4ChordFinder*          fChordFinder;
-  G4ChordFinder*          fLocalChordFinder;
-  G4Mag_UsualEqRhs*       fEquation;
-  G4Mag_UsualEqRhs*       fLocalEquation;
-  G4MagneticField*        fMagneticField;
-  G4MagneticField*        fLocalMagneticField;
-  G4MagIntegratorStepper* fStepper;
-  G4MagIntegratorStepper* fLocalStepper;
-  G4int                   fStepperType;
-  G4double                fMinStep;
-  muMagnetMessenger*      fFieldMessenger;
+  G4FieldManager*               GetGlobalFieldManager();
+  G4ThreeVector                    GetConstantFieldValue(G4MagneticField* ) const;
+  G4FieldManager*                fFieldManager;
+  G4FieldManager*                fLocalFieldManager;
+  G4ChordFinder*                  fChordFinder;
+  G4ChordFinder*                  fLocalChordFinder;
+  G4Mag_UsualEqRhs*         fEquation;
+  G4Mag_UsualEqRhs*         fLocalEquation;
+  G4MagneticField*               fMagneticField;
+  G4MagneticField*               fLocalMagneticField;
+  G4MagIntegratorStepper*   fStepper;
+  G4MagIntegratorStepper*   fLocalStepper;
+  G4int                                    fStepperType;
+  G4double                             fMinStep;
+  muMagnetMessenger*        fFieldMessenger;
 };
 #endif
