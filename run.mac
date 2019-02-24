@@ -25,10 +25,11 @@
 #/gps/ene/mono 3.0 MeV
 #/gps/ene/sigma 0.2 keV
 
-/analysis/setFileName indFiss
+#/analysis/setFileName indFiss
 #/analysis/H1/SetActivationToAll true
 
-/gun/particle neutron
-/gun/energy 3.0 MeV
-/gun/position 0.0 0.0 -1.0 cm
+/gun/particle mu-
+/gun/energy 4.0 GeV
+/gun/position 0.0 100.0 0.0 m
+/gun/direction 0.0 -1.0 0.0
 /run/beamOn 10000
