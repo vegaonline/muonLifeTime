@@ -60,6 +60,11 @@ muMagnetMessenger::muMagnetMessenger(muMagneticField* fieldSetup)
     }
 
 void muMagnetMessenger::SetNewValue(G4UIcommand* comm, G4String newValue) {
-  if (comm == fStepperCmd)  fMagSetup->SetStepperType(fStepperCmd->GetNewIntValue(newValue));
-  if (comm == fUpdateCmd)   fMagSetup->UpdateField();
+  if (comm == fStepperCmd)            fMagSetup->SetStepperType(fStepperCmd->GetNewIntValue(newValue));
+  if (comm == fUpdateCmd)             fMagSetup->UpdateField();
+  if (comm == fMagFieldYCmd)          fMagSetup->SetFieldYValue(fMagFieldYCmd->GetNewDoubleValue(newValue));
+  if (comm == fMagFieldCmd)           fMagSetup->SetFieldValue(fMagFieldCmd->GetNew3VectorValue(newValue));
+  if (comm == fLocalMagneticFieldCmd) fMagSetup->SetLocalFieldValue(fLocalMagneticFieldCmd->GetNew3VectorValue(newValue));
+  fMagSetup->UpdateField();
+  if (comm == fMinStepCmd)            fMagSetup->SetMinStep(fMinStepCmd->GetNewDoubleValue(newValue));
 }

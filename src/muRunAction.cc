@@ -26,14 +26,16 @@ void muRunAction::BeginOfRunAction(const G4Run* aRun) {
 
 
 void muRunAction::EndOfRunAction(const G4Run* aRun){
+  G4Material* material;
+  G4double density = 0.0, energy = 0.0, lengthY = 0.0;
   G4int NbOfEvents = aRun->GetNumberOfEvent();
   if (NbOfEvents == 0) return;
 
-  G4Material* material = fDetector->GetDetectorMaterial();
-  G4double lengthY = fDetector->GetDetectorThickness();
-  G4double density = material->GetDensity();
+  material = fDetector->GetDetectorMaterial();
+  lengthY = fDetector->GetDetectorThickness();
+  density = material->GetDensity();
   G4String Particle = fPrimary->GetParticleGun()->GetParticleDefinition()->GetParticleName();
-  G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
+  energy = fPrimary->GetParticleGun()->GetParticleEnergy();
   G4cout << "\n The run consists of "           << NbOfEvents << " "<< Particle << " of "
          << G4BestUnit(energy," Energy")        << " through "
          << G4BestUnit(lengthY," Length")        << " of "

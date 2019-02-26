@@ -98,8 +98,8 @@
 #/gps/direction 0. 0. 1.
 #/gps/ang/type beam1d # cos
 #/gps/ene/mono 3.0 MeV
-# /gps/ene/min 2.5 MeV
-# /gps/ene/max 7.0 MeV
+#/gps/ene/min 2.5 MeV
+#/gps/ene/max 7.0 MeV
 
 /gun/particle mu-
 /gun/energy 4.0 GeV
