@@ -39,7 +39,6 @@ void muRunAction::EndOfRunAction(const G4Run* aRun){
   G4cout << "\n The run consists of "  << NbOfEvents << " "<< Particle << " of "
          << energy / MeV   << " MeV "  << " through "
          << lengthY / mm   << " mm "   << " of "
-         << material->GetName()                 << " (density: "
-         << " )" << G4endl;
+         << material->GetName()           << " )" << G4endl;
 
 }
