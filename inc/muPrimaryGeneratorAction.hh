@@ -20,6 +20,8 @@
 #include "globals.hh"
 
 class G4Event;
+class G4ParticleGun;
+class G4ParticleDefinition;
 class muDetectorConstruction;
 
 class muPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
@@ -33,6 +35,9 @@ public:
 private:
   G4ParticleGun* fParticleGun;
   muDetectorConstruction* fDetector;
+  G4ParticleDefinition* fMuonP;
+  G4ParticleDefinition* fMuonM;
+  G4double fMiniDist = 20.0*cm; // this is just a small distance on the top of the topmost detector 
 };
 
 #endif

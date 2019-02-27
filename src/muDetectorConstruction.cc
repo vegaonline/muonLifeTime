@@ -104,14 +104,17 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   fPhysicalWorld = new G4PVPlacement(0, G4ThreeVector(), lWorld, "World", 0, false, 0);
 
   // Detectors
-  fSetupTopHt = 0.0;
+  fSetupTopHt = -99999.0;
+  fSetupBotHt = 99999.0;
+
   for (G4int ii = 0; ii < fNumDetector; ii++) {  // Define each detector with respect to the magnet
     auto detname = "Detector" + std::to_string(ii);  // if there is error use std::ostringstream ss; ss << ii; detname = ss.str()
     auto detectorBox = new G4Box(detname, 0.5 * fDetectorLength, 0.5 * fDetectorThickness, 0.5 * fDetectorWidth);
     auto detLogic = new G4LogicalVolume(detectorBox, fDetectorMaterial, detname);
     fLogicDetector.push_back(detLogic);
     G4double yCoord = fDetPlaced[ii] * fDistDetMagnet[ii] ;
-    fSetupTopHt = std::max(fSetupTopHt, std::abs(yCoord) + 0.5 * fDetPlaced[ii] * fDetectorThickness);
+    if (fDetPlaced[ii] > 0) fSetupTopHt = std::max(fSetupTopHt, std::abs(yCoord) + 0.5 * fDetPlaced[ii] * fDetectorThickness);
+    if (fDetPlaced[ii] < 0) fSetupBotHt = std::min(fSetupBotHt, -1.0 *(std::abs(yCoord) + 0.5 * fDetPlaced[ii] * fDetectorThickness));
     new G4PVPlacement(0, G4ThreeVector(0.0, yCoord, 0.0), detLogic, detname, lWorld, false, 0);
   }
 

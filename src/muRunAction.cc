@@ -36,10 +36,10 @@ void muRunAction::EndOfRunAction(const G4Run* aRun){
   density = material->GetDensity();
   G4String Particle = fPrimary->GetParticleGun()->GetParticleDefinition()->GetParticleName();
   energy = fPrimary->GetParticleGun()->GetParticleEnergy();
-  G4cout << "\n The run consists of "           << NbOfEvents << " "<< Particle << " of "
-         << G4BestUnit(energy," Energy")        << " through "
-         << G4BestUnit(lengthY," Length")        << " of "
+  G4cout << "\n The run consists of "  << NbOfEvents << " "<< Particle << " of "
+         << energy / MeV   << " MeV "  << " through "
+         << lengthY / mm   << " mm "   << " of "
          << material->GetName()                 << " (density: "
-         << G4BestUnit(density," Volumic Mass") << ")" << G4endl;
+         << " )" << G4endl;
 
 }

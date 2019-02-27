@@ -73,6 +73,7 @@ public:
   G4double GetDetectorWidth()                   const { return fDetectorWidth; }
   G4double GetDetectorThickness()               const { return fDetectorThickness; }
   G4double GetTopPosition()                     const { return fSetupTopHt; }
+  G4double GetBotPosition()                     const { return fSetupBotHt; }
   G4Material* GetDetectorMaterial()                   { return fDetectorMaterial; }
   G4int GetLogicDetectorNumber()                const { return fLogicDetector.size(); }
   G4LogicalVolume* GetLogicDetector(G4int iTag)       { return fLogicDetector[iTag]; }
@@ -100,7 +101,7 @@ private:
   G4double fDetectorThickness; // Thickness of each detector
   G4Material* fDetectorMaterial;
   std::vector<G4LogicalVolume*> fLogicDetector;
-  G4double fSetupTopHt;
+  G4double fSetupTopHt, fSetupBotHt;
 
   G4double fMagnetPlateLength;  // Length of Magnet
   G4double fMagnetPlateWidth;   // Width of Magnet
