@@ -1,0 +1,102 @@
+#=========================================
+#   Neutron spallation
+#=========================================
+/control/verbose 0
+/tracking/verbose 0
+/event/verbose 0
+/vis/verbose errors
+/run/verbose 2
+/gps/verbose 0 #2
+
+/run/initialize
+
+#/control/manual /tarc
+
+/vis/scene/create
+#/vis/open HepRepFile
+/vis/open OGL 1020x980-0+0
+/vis/drawVolume   # ---> working for full volume
+
+#/vis/open OGL
+/vis/viewer/set/autoRefresh false
+#/vis/viewer/flush
+/vis/viewer/zoom 1.7
+#/vis/open OGLIQT
+/vis/scene/add/axes 0 0 0 250 cm
+/vis/viewer/set/viewpointThetaPhi 73 9 deg
+/vis/scene/add/userAction
+
+/vis/ogl/set/displayListLimit 100000000000
+/tracking/storeTrajectory 0   #  this is zero as core dumps after 37th event
+/vis/scene/add/trajectories smooth
+#/vis/scene/add/trajectories smooth rich
+
+
+# neutron
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add neutron
+
+#proton
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-1/add proton
+
+#draw by particle ID
+#/vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/drawByParticleID-0/set e- blue
+#/vis/modeling/trajectories/drawByParticleID-0/set proton red
+#/vis/modeling/trajectories/drawByParticleID-0/set neutron yellow
+#/vis/modeling/trajectories/drawByParticleID-0/set gamma cyan
+
+# Draw by particle charge
+#/vis/modeling/trajectories/create/drawByCharge
+#/vis/modeling/trajectories/drawByCharge-0/set 1 blue
+#/vis/modeling/trajectories/drawByCharge-0/set -1 red
+#/vis/modeling/trajectories/drawByCharge-0/set 0 white
+
+#/vis/modeling/trajectories/list
+
+#/vis/scene/endOfEventAction accumulate
+#/vis/scene/endOfEventAction accumulate -1
+
+/vis/viewer/set/autoRefresh true
+/vis/viewer/update
+
+
+#### Default intensity say 1
+#/gps/source/intensity 1
+
+#### fix gps source particle and type
+/gps/particle proton
+/gps/pos/type Beam
+
+#### incident surface is in X-Y plane
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 1 0
+
+#### Beam spot is centred at (0 0 -1800)1D Gaussian shape with 10 mm central plateau
+/gps/pos/shape Circle
+/gps/position 0.0 0.0 -1800.0 mm       # 1200 mm long beam pipe at 0, 0, -900 
+/gps/pos/radius 10.0 mm
+/gps/pos/sigma_r 0.1 mm
+
+#### Beam is travelling along +Z axis with 1 degree dispersion
+/gps/ang/type beam1d
+/gps/ang/sigma_r 0.5 deg
+/gps/direction 0 0 1
+#/gps/ang/rot2  0  1  0
+#/gps/ang/rot1 -1  0  0
+
+#### Beam energy is in gaussian profile with 1 keV dispersion
+/gps/ene/type Gauss
+/gps/ene/mono 2.67 GeV    # 2.5 GeV/c
+#/gps/ene/mono 3.62 GeV    # 3.5 GeV/c
+/gps/ene/sigma 0.5 keV
+
+
+####
+#/tarc/beam/DefaultBeamPosition false
+#/tarc/histo/fileName Hadro
+#/tarc/histo/setHisto 0 10  0 1500 MeV
+
+
+/run/beamOn 2
