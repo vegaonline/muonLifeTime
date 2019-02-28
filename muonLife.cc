@@ -44,6 +44,8 @@
 #include "muPrimaryGeneratorAction.hh"
 //             #include "muActionInitialization.hh"
 #include "muRunAction.hh"
+#include "muSteppingAction.hh"
+#include "muStackingAction.hh"
 
 void PrintUsage() {
   G4cerr << G4endl;
@@ -108,6 +110,8 @@ int main(int argc, char** argv) {
 
   auto muRun = new muRunAction(muDet, muPrim);
   runManager->SetUserAction(muRun);
+  runManager->SetUserAction(new muSteppingAction(muRun));
+  runManager->SetUserAction(new muStackingAction);
   //runManager->SetUserInitialization(new muActionInitialization(muDet, muPrim));
   runManager->Initialize();
 

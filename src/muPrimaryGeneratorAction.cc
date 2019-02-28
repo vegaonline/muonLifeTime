@@ -34,5 +34,6 @@ void muPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
 
   fParticleGun->SetParticleEnergy(4.0*GeV);
   fParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.0, -1.0, 0.0));
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
