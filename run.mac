@@ -5,9 +5,9 @@
 # and initializes the graphic.
 #
 /control/verbose 0
-/tracking/verbose 0
+/tracking/verbose 2
 /event/verbose 0
-/run/verbose 0
+/run/verbose 2
 
 
 /tracking/storeTrajectory 0

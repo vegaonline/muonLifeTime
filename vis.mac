@@ -4,6 +4,7 @@
 # Sets some default verbose
 # and initializes the graphic.
 #
+/vis/verbose errors
 /control/verbose 0
 /tracking/verbose 0
 /event/verbose 0
@@ -11,8 +12,11 @@
 #
 /run/initialize
 #
+/vis/scene/create
+#
+#
 # Use this open statement to create an OpenGL view:
-#/vis/open OGL 600x600-0+0
+/vis/open OGL 1020x980-0+0
 #
 # Use this open statement to create a .prim file suitable for
 # viewing in DAWN:
@@ -20,33 +24,39 @@
 #
 # Use this open statement to create a .heprep file suitable for
 # viewing in HepRApp:
-/vis/open HepRepFile
+#/vis/open HepRepFile
 #
 # Use this open statement to create a .wrl file suitable for
 # viewing in a VRML viewer:
 #/vis/open VRML2FILE
 #
-# Disable auto refresh and quieten vis messages whilst scene and
-# trajectories are established:
-/vis/viewer/set/autoRefresh false
-/vis/verbose errors
-#
 # Draw geometry:
 /vis/drawVolume
 #
+# Disable auto refresh and quieten vis messages whilst scene and
+# trajectories are established:
+/vis/viewer/set/autoRefresh false
+/vis/viewer/flush
+#
+#
 # Specify view angle:
-/vis/viewer/set/viewpointThetaPhi 35. 50.
+/vis/viewer/set/viewpointThetaPhi 35. 15.
+#/vis/viewer/set/viewpointThetaPhi 35. 50.
 #
 # Specify zoom value:
-/vis/viewer/zoom 1.2
+/vis/viewer/zoom 0.8
 #
 # Specify style (surface or wireframe):
 /vis/viewer/set/style surface
+#/vis/viewer/set/style wireframe
 # To get nice view
 /vis/geometry/set/visibility World 0 false
 #
 # Draw coordinate axes:
-/vis/scene/add/axes 0 0 0 0.2 m
+/vis/scene/add/axes 0 0 0 50 cm
+#
+/vis/scene/add/userAction
+/vis/ogl/set/displayListLimit 100000000000
 #
 # Draw smooth trajectories at end of event, showing trajectory points
 # as markers 2 pixels wide:
@@ -78,15 +88,16 @@
 #
 # To superimpose all of the events from a given run:
 # /vis/scene/endOfEventAction accumulate 10000000
-/vis/scene/endOfEventAction accumulate 0
-#  /tracking/storeTrajectories 0
+#/vis/scene/endOfEventAction accumulate 0
+/tracking/storeTrajectory 0
+/vis/scene/add/trajectories smooth
 #
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings
 #
 # For file-based drivers, use this to create an empty detector view:
-/vis/viewer/flush
+/vis/viewer/update
 
 #/gps/particle neutron
 #/gps/pos/type Beam # Point
@@ -106,4 +117,4 @@
 /gun/position 0.0 100.0 0.0 m
 /gun/direction 0.0 -1.0 0.0
 
-/run/beamOn 50
+/run/beamOn 10000

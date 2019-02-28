@@ -20,6 +20,7 @@
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
+#include "G4VisAttributes.hh"
 #include "G4UnitsTable.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
@@ -41,6 +42,7 @@ class muDetectorMessenger;
 class muMagneticField;
 class G4UniformMagField;
 class G4GenericMessenger;
+class G4VisAttributes;
 
 class muDetectorConstruction : public G4VUserDetectorConstruction{
 public:
@@ -81,7 +83,7 @@ public:
   G4double GetMagnetWidth()                     const { return fMagnetPlateWidth; }
   G4double GetMagnetThickness()                 const { return fMagnetPlateThickness; }
   G4Material* GetMagnetPlateMaterial()                { return fMagnetPlateMaterial; }
-  G4LogicalVolume* GetLogicMagnet()                   { return fLogicMagnet; }
+  G4LogicalVolume* GetLogicMagnet()                   { return fMagPlateL; }
 
 private:
   void DefineMaterials();
@@ -100,7 +102,9 @@ private:
   G4double fDetectorWidth;  // Width of each detector
   G4double fDetectorThickness; // Thickness of each detector
   G4Material* fDetectorMaterial;
+  G4LogicalVolume* fDetLogicL;
   std::vector<G4LogicalVolume*> fLogicDetector;
+  std::vector<G4VisAttributes*> fVisAttributes;
   G4double fSetupTopHt, fSetupBotHt;
 
   G4double fMagnetPlateLength;  // Length of Magnet
@@ -108,7 +112,8 @@ private:
   G4double fMagnetPlateThickness;   // Thickness of Magnet
   G4double fMagnetPlateGap;     // Gap of Magnet
   G4Material* fMagnetPlateMaterial;
-  G4LogicalVolume* fLogicMagnet;
+  G4LogicalVolume* fMagPlateL; //LogicMagnet;
+  G4LogicalVolume* fMagAirBlockL;
 
   G4double fWorldLength;
   G4double fWorldWidth;
