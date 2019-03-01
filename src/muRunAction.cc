@@ -8,8 +8,8 @@
 
 #include "muRunAction.hh"
 
-muRunAction::muRunAction(muDetectorConstruction* det, muPrimaryGeneratorAction* prim)
- : G4UserRunAction(), fDetector(det), fPrimary(prim) {
+muRunAction::muRunAction(muDetectorConstruction* det, muPrimaryGeneratorAction* prim, muHistoManager* muHistM)
+ : G4UserRunAction(), fDetector(det), fPrimary(prim), muHisto(muHistM) {
 
 }
 
@@ -21,7 +21,8 @@ void muRunAction::BeginOfRunAction(const G4Run* aRun) {
   G4cout << "### Run " << aRun->GetRunID() << " start. " << G4endl;
 
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
-  CLHEP::HepRandom::showEngineStatus();
+  //  CLHEP::HepRandom::showEngineStatus();  // working but not needed now
+  muHisto->Book();
 }
 
 
@@ -40,5 +41,5 @@ void muRunAction::EndOfRunAction(const G4Run* aRun){
          << energy / MeV   << " MeV "  << " through "
          << lengthY / mm   << " mm "   << " of "
          << material->GetName()           << " )" << G4endl;
-
+  muHisto->Save();
 }

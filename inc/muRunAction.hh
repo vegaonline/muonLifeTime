@@ -21,15 +21,17 @@
 
 #include "muDetectorConstruction.hh"
 #include "muPrimaryGeneratorAction.hh"
+#include "muHistoManager.hh"
 
 class muDetectorConstruction;
 class muPrimaryGeneratorAction;
+class muHistoManager;
 class G4Run;
 class G4Material;
 
 class muRunAction : public G4UserRunAction{
 public:
-  muRunAction(muDetectorConstruction*, muPrimaryGeneratorAction*);
+  muRunAction(muDetectorConstruction*, muPrimaryGeneratorAction*, muHistoManager*);
   ~muRunAction();
 public:
   virtual void BeginOfRunAction(const G4Run*);
@@ -42,6 +44,7 @@ private:
 private:
   muDetectorConstruction* fDetector;
   muPrimaryGeneratorAction* fPrimary;
+  muHistoManager* muHisto;
 };
 
 #endif

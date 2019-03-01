@@ -8,7 +8,8 @@
 
 #include "muSteppingAction.hh"
 
-muSteppingAction::muSteppingAction(muRunAction* myRunAction) : G4UserSteppingAction(), fRunAction(myRunAction){
+muSteppingAction::muSteppingAction(muRunAction* myRunAction, muHistoManager* muHistM)
+ : G4UserSteppingAction(), fRunAction(myRunAction), muHisto(muHistM){
 
 }
 
@@ -30,4 +31,17 @@ void muSteppingAction::UserSteppingAction(const G4Step* myStep){
   G4double edep = myStep->GetTotalEnergyDeposit();
   G4double posPre = startPoint->GetPosition().mag();
   G4double posPost =endPoint->GetPosition().mag();
+
+  G4int id = 0;
+  if (procName == "muIoni")          id = 1;
+  else if (procName == "muPairProd") id = 2;
+  else if (procName == "muBrems")    id = 3;
+  //  else if (procName == "muNucl")     id = 4;
+  else if (procName == "muonNuclear")id = 4;
+  else if (procName == "hIoni")      id = 5;
+  else if (procName == "hPairProd")  id = 6;
+  else if (procName == "hBrems")     id = 7;
+  muHisto->FillHisto(id,edep);
+  G4cout << thisParticleName << " process: " << procName << " ID # " << id
+         << " Energy deposition: " << edep/keV << " keV." << G4endl;
 }

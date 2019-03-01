@@ -16,7 +16,7 @@
 #
 #
 # Use this open statement to create an OpenGL view:
-/vis/open OGL 1020x980-0+0
+/vis/open OGL 1020x900-0+0
 #
 # Use this open statement to create a .prim file suitable for
 # viewing in DAWN:
@@ -40,15 +40,15 @@
 #
 #
 # Specify view angle:
-/vis/viewer/set/viewpointThetaPhi 35. 15.
+/vis/viewer/set/viewpointThetaPhi 9. 15.
 #/vis/viewer/set/viewpointThetaPhi 35. 50.
 #
 # Specify zoom value:
-/vis/viewer/zoom 0.8
+/vis/viewer/zoom 1.3
 #
 # Specify style (surface or wireframe):
-/vis/viewer/set/style surface
-#/vis/viewer/set/style wireframe
+#/vis/viewer/set/style surface
+/vis/viewer/set/style wireframe
 # To get nice view
 /vis/geometry/set/visibility World 0 false
 #

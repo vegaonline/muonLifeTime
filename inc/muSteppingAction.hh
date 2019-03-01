@@ -14,18 +14,21 @@
 #include "globals.hh"
 #include "muSteppingAction.hh"
 #include "muRunAction.hh"
+#include "muSteppingAction.hh"
 
 class muRunAction;
+class muSteppingAction;
 
 class muSteppingAction : public G4UserSteppingAction{
 public:
-  muSteppingAction(muRunAction*);
+  muSteppingAction(muRunAction*, muHistoManager*);
   ~muSteppingAction();
 
 public:
   virtual void UserSteppingAction(const G4Step*);
 private:
   muRunAction* fRunAction;
+  muHistoManager* muHisto;
 };
 
 #endif
