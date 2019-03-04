@@ -34,6 +34,8 @@
 #include "G4MuonNuclearProcess.hh"
 #include "G4MuonDecayChannelWithSpin.hh"
 #include "G4Transportation.hh"
+#include "G4VTrajectoryModel.hh"
+#include "G4TrajectoryDrawByParticleID.hh"
 #include "G4CoupledTransportation.hh"
 #include "Randomize.hh"
 
@@ -42,11 +44,11 @@
 #include "muDetectorConstruction.hh"
 #include "muPhysicsList.hh"
 #include "muPrimaryGeneratorAction.hh"
-//             #include "muActionInitialization.hh"
-#include "muRunAction.hh"
+#include "muActionInitialization.hh"
+//  #include "muRunAction.hh"
 #include "muSteppingAction.hh"
 #include "muStackingAction.hh"
-#include "muHistoManager.hh"
+
 
 void PrintUsage() {
   G4cerr << G4endl;
@@ -91,9 +93,11 @@ int main(int argc, char** argv) {
 #ifdef G4MULTITHREADED
   auto runManager = new G4MTRunManager;
   if (nThreads > 0) runManager->SetNumberOfThreads(nThreads);
+  G4cout << "Code is started with " << runManager->GetNumberOfThreads() << " threads. " << G4endl;
 #else
   auto runManager = new G4RunManager;
 #endif
+
 
   //set mandatory initialization classes
   auto muDet= new muDetectorConstruction;
@@ -106,20 +110,39 @@ int main(int argc, char** argv) {
   //runManager->SetUserInitialization(physList);
   runManager->SetUserInitialization(muPhys);
 
+  runManager->SetUserInitialization(new muActionInitialization());
+
+/*
   auto muPrim = new muPrimaryGeneratorAction(muDet);
   runManager->SetUserAction(muPrim);
   muHistoManager* muHisto = new muHistoManager();
-
   auto muRun = new muRunAction(muDet, muPrim, muHisto);
   runManager->SetUserAction(muRun);
   runManager->SetUserAction(new muSteppingAction(muRun, muHisto));
   runManager->SetUserAction(new muStackingAction);
   //runManager->SetUserInitialization(new muActionInitialization(muDet, muPrim));
+  */
+
   runManager->Initialize();
+
+  // Create new drawByParticleID model
+  auto model = new G4TrajectoryDrawByParticleID;
+  // Configure model
+  model->SetDefault("white");
+  model->Set("gamma", "green");
+  model->Set("mu+", G4Color(0.75, 0.19, 0.25));
+  model->Set("mu-", G4Color(0.19, 0.75, 0.25));
+  model->Set("e+", "cyan");
+  model->Set("e-", "blue");
+  model->Set("proton", "red");
+  model->Set("neutron", "yellow"); //G4Color(0.7, 0.1, 0.4));
+
+  //Register model with visualization manager
 
   //initialize visualization
   auto visManager = new G4VisExecutive;
   visManager->Initialize();
+  visManager->RegisterModel(model);
  // get the pointer to the User Interface manager
   auto UImanager = G4UImanager::GetUIpointer();
 
@@ -143,8 +166,8 @@ int main(int argc, char** argv) {
   delete visManager;
   G4cout << "Vis manager deleted" << G4endl;
 #endif
-  //delete runManager;
-  //G4cout << "run manager deleted" << G4endl;
+  delete runManager;
+  G4cout << "run manager deleted" << G4endl;
   return 0;
 
 
