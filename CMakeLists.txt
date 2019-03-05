@@ -7,8 +7,8 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(muonDecay)
 
-#set(CMAKE_BUILD_TYPE RelWithDebInfo)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+#set(CMAKE_BUILD_TYPE Release)
 
 option(WITH_GEANT4_UIVIS " Build with UI and Vis driver " ON)
 if (WITH_GEANT4_UIVIS)

@@ -12,6 +12,9 @@
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4ParticleGun.hh"
+#include "G4LogicalVolume.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4Box.hh"
 #include "G4GeneralParticleSource.hh"
 #include "G4Event.hh"
 #include "G4ParticleTable.hh"
@@ -42,10 +45,12 @@ private:
 
 private:
   G4ParticleGun* fParticleGun;
-  muDetectorConstruction* fDetector;
+
   G4double fEnergy;
   G4ParticleDefinition* fMuonP;
   G4ParticleDefinition* fMuonM;
+  G4ThreeVector fParticlePos;
+  G4ThreeVector fParticleMom;
   G4double fMiniDist = 20.0*cm; // this is just a small distance on the top of the topmost detector
 };
 

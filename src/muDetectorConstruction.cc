@@ -101,9 +101,9 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   fDetectorMaterial = scintillator;
 
   // The World
-  auto sWorld = new G4Box("WorldLab", 0.5 * fWorldLength, 0.5 * fWorldThickness, 0.5 * fWorldWidth);
-  auto lWorld  = new G4LogicalVolume(sWorld, fWorldMaterial, "World");
-  fPhysicalWorld = new G4PVPlacement(0, G4ThreeVector(), lWorld, "World", 0, false, 0);
+  auto sWorld = new G4Box("WorldLabS", 0.5 * fWorldLength, 0.5 * fWorldThickness, 0.5 * fWorldWidth);
+  auto lWorld  = new G4LogicalVolume(sWorld, fWorldMaterial, "WorldLabL");
+  fPhysicalWorld = new G4PVPlacement(0, G4ThreeVector(), lWorld, "WorldLabP", 0, false, 0);
 
   // Detectors
   fSetupTopHt = -99999.0;
@@ -133,7 +133,7 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   Ta.setX(0.0); Ta.setY(0.5 * (fMagnetPlateGap + fMagnetPlateThickness)); Ta.setZ(0.0);   // upper Magnet plate
   fMagnetAssembly->AddPlacedVolume(fMagPlateL, Ta, Ra);
   //Ta.setX(0.0); Ta.setY(0.0); Ta.setZ(0.0);            // Air at centre
-  //fMagnetAssembly->AddPlacedVolume(fMagAirBlockL, Ta, Ra);  // removed as world volume is filled with air 
+  //fMagnetAssembly->AddPlacedVolume(fMagAirBlockL, Ta, Ra);  // removed as world volume is filled with air
   Ta.setX(0.0); Ta.setY(-0.5 * (fMagnetPlateGap + fMagnetPlateThickness)); Ta.setZ(0.0); // Lower Magnet Plate
   fMagnetAssembly->AddPlacedVolume(fMagPlateL, Ta, Ra);
   Ta.setX(0.0); Ta.setY(0.0); Ta.setZ(0.0);
