@@ -47,14 +47,17 @@ void muPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
     fWidth = (2.0 * fTopDetector->GetZHalfLength()) / 1.4;  //  total width of magnet
   }
 
-  G4double x0 = (2.0 * G4UniformRand() - 1.0) * 0.9 * fLength;
-  G4double z0 = (2.0 * G4UniformRand() - 1.0) * 0.9 * fWidth;
+  G4double x0 = (2.0 * G4UniformRand() - 1.0) * 0.95 * fLength;
+  G4double z0 = (2.0 * G4UniformRand() - 1.0) * 0.95 * fWidth;
   G4double y0 = fTopPos;
+  G4double fCosTheta = G4UniformRand();  // between 0 and 1 so that fTheta is between 0 and 90 degrees
+  G4double fSinTheta = G4UniformRand();  // between 0 and 1 so that fTheta is between 0 and 90 degrees
+
 
   fParticlePos = G4ThreeVector(x0, y0, z0);
   //fParticleGun->SetParticleEnergy(4.0*GeV);
   fParticleGun->SetParticlePosition(fParticlePos);
-  //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.0, -1.0, 0.0));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(fSinTheta, -fCosTheta, 0.0));
   fParticleGun->GeneratePrimaryVertex(anEvent);
 
 }

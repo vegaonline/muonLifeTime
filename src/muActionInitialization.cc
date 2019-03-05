@@ -26,6 +26,5 @@ void muActionInitialization::Build() const {
 }
 
 void muActionInitialization::BuildForMaster() const {
-  G4UserRunAction* run_Action = new muRunAction;
-  SetUserAction(run_Action);
+  SetUserAction(new muRunAction);
 }

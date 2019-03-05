@@ -13,9 +13,10 @@
 G4ThreadLocal G4GlobalMagFieldMessenger* muDetectorConstruction::fMagFieldMessenger = 0;
 
 muDetectorConstruction::muDetectorConstruction()
-: G4VUserDetectorConstruction(), fDetectorMaterial(nullptr), fLogicDetector(), fDetLogicL(nullptr),
+: G4VUserDetectorConstruction(), fDetectorMaterial(nullptr), fLogicDetector(), fDetLogicL(nullptr), fMagneticField(),
   fMagnetPlateMaterial(nullptr), fMagPlateL(nullptr), fDetMessenger(nullptr), fPhysicalWorld(nullptr),
   D0PV(nullptr), D1PV(nullptr), fVisAttributes() {
+    fMagneticField.Put(0);
     InitMeasurement();
     DefineMaterials();
     fDetMessenger = new muDetectorMessenger(this);
@@ -60,11 +61,25 @@ G4VPhysicalVolume* muDetectorConstruction::Construct() {
 
 void muDetectorConstruction::ConstructSDandField() {
   //auto sdManager = G4SDManager::GetSDMpointer();
+  /*   // working
   fMagneticField = new muMagneticField();
   G4ThreeVector fieldValue = G4ThreeVector();
   fMagFieldMessenger = new G4GlobalMagFieldMessenger(fieldValue);
   fMagFieldMessenger->SetVerboseLevel(1);
   G4AutoDelete::Register(fMagFieldMessenger);
+  */
+#if MAG
+  if (fMagneticField.Get() == 0) {
+    G4MagneticField* fMagF = new muMagTabulatedField3D("magField3D.tab");
+    fMagneticField.Put(fMagF);
+
+    G4FieldManager* pFieldMgr = G4TransportationManager::GetTransportationManager()->GetFieldManager();
+
+    pFieldMgr->SetDetectorField(fMagneticField.Get());
+    pFieldMgr->CreateChordFinder(fMagneticField.Get());
+    G4AutoDelete::Register(fMagFieldMessenger);
+  }
+#endif
 }
 
 void muDetectorConstruction::DefineMaterials() {

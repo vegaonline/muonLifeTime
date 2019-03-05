@@ -21,6 +21,7 @@
 #include "G4EmParameters.hh"
 #include "G4HadronicProcessStore.hh"
 #include "G4PhysicsListHelper.hh"
+#include "G4PhysListFactory.hh"
 #include "G4StepLimiterPhysics.hh"
 #include "FTFP_BERT.hh"
 #include "G4Electron.hh"
@@ -45,9 +46,10 @@
 #include "muPhysicsList.hh"
 #include "muPrimaryGeneratorAction.hh"
 #include "muActionInitialization.hh"
+
 //  #include "muRunAction.hh"
-#include "muSteppingAction.hh"
-#include "muStackingAction.hh"
+//#include "muSteppingAction.hh"
+//#include "muStackingAction.hh"
 
 
 void PrintUsage() {
@@ -104,8 +106,12 @@ int main(int argc, char** argv) {
   runManager->SetUserInitialization(muDet);
 
   //G4BLineTracer* theBLineTool = new G4BLineTracer();
-  auto muPhys = new muPhysicsList;
-  //G4VModularPhysicsList*  physList = new FTFP_BERT;
+
+  G4PhysListFactory fPhysFactory;
+  //        G4VModularPhysicsList* phys = fPhysFactory.GetReferencePhysList("FTFP_BERT");
+  auto muPhys = new muPhysicsList();
+  //phys->RegisterPhysics(muPhys);
+
   //physList->RegisterPhysics(new G4StepLimiterPhysics());
   //runManager->SetUserInitialization(physList);
   runManager->SetUserInitialization(muPhys);

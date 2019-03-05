@@ -30,11 +30,14 @@
 #include "G4NistManager.hh"
 #include "G4RunManager.hh"
 #include "G4AutoDelete.hh"
+#include "G4Cache.hh"
+#include "G4MagneticField.hh"
 #include "globals.hh"
 #include <vector>
 
 #include "muDetectorMessenger.hh"
 #include "muMagneticField.hh"
+#include "muMagTabulatedField3D.hh"
 
 class G4LogicalVolume;
 class G4AssemblyVolume;
@@ -42,9 +45,13 @@ class G4Material;
 class muDetectorMessenger;
 class muMagneticField;
 class G4UniformMagField;
+class muMagTabulatedField3D;
 class G4GlobalMagFieldMessenger;
 class G4GenericMessenger;
 class G4VisAttributes;
+
+#define MAG 1                     // Magnetic Field Grid
+#define MEASUREVOL 1  // Volume for measurement
 
 class muDetectorConstruction : public G4VUserDetectorConstruction{
 public:
@@ -98,7 +105,8 @@ private:
   //static G4ThreadLocal muMagneticField* fMagneticField;
   //static G4ThreadLocal G4FieldManager* fFieldMgr;
   static G4ThreadLocal G4GlobalMagFieldMessenger* fMagFieldMessenger;
-  G4Cache<muMagneticField*> fMagneticField;
+  //G4Cache<muMagneticField*> fMagneticField;
+  G4Cache<G4MagneticField*> fMagneticField;
 
   G4int fNumDetector;  // Total number of detectors of same size used
   std::vector<G4int>    fDetPlaced;    // position of i-th detector : 0 if above magnet and 1 if below magnet
