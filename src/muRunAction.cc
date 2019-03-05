@@ -10,7 +10,7 @@
 
 // muRunAction::muRunAction(muDetectorConstruction* det, muPrimaryGeneratorAction* prim, muHistoManager* muHistM)
 muRunAction::muRunAction()
- : G4UserRunAction(), fEventNum(0),  fHistoBooked(false) {//, muHisto(muHistM) {
+ : G4UserRunAction(), fHistoBooked(false) {// ,fEventNum(0),  muHisto(muHistM) {
    G4AnalysisManager* fAnalysisMan = G4AnalysisManager::Instance();
    if (!fHistoBooked) BookHistogram();
    G4cout << fAnalysisMan->GetType() << " data is being stored." << G4endl;
@@ -25,17 +25,19 @@ G4Run* muRunAction::GenerateRun() {
 }
 
 void muRunAction::BeginOfRunAction(const G4Run* aRun) {
-  auto fAnalysisMan = G4AnalysisManager::Instance();
   G4cout << "### Run " << aRun->GetRunID() << " start. " << G4endl;
+
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
-  fAnalysisMan->OpenFile();
+
+  auto fAnalysisMan = G4AnalysisManager::Instance();
+  fAnalysisMan->OpenFile(fAnalysisFileName);
   //  CLHEP::HepRandom::showEngineStatus();  // working but not needed now
   //muHisto->Book();
 }
 
 void muRunAction::EndOfRunAction(const G4Run* aRun){
-  G4Material* material;
-  G4double density = 0.0, energy = 0.0, lengthY = 0.0;
+  //G4Material* material;
+  //G4double density = 0.0, energy = 0.0, lengthY = 0.0;
   const muRun* thisRun = static_cast<const muRun*>(aRun);
 
   G4int NbOfEvents = aRun->GetNumberOfEvent();
@@ -53,6 +55,7 @@ void muRunAction::EndOfRunAction(const G4Run* aRun){
   //muHisto->Save();
   */
   auto fAnalysisMan = G4AnalysisManager::Instance();
+  if (fAnalysisMan->GetH1(1)) G4cout << "Edep_D0 " <<G4BestUnit(fAnalysisMan->GetH1(0)->mean(), "Energy");
   fAnalysisMan->Write();
   fAnalysisMan->CloseFile();
   G4cout <<"End of RunAction." << G4endl;
@@ -65,6 +68,18 @@ void muRunAction::BookHistogram(){
   fAnalysisMan->SetVerboseLevel(1);
   fAnalysisMan->SetFileName(fAnalysisFileName);
   fHistoBooked = true;
+
+  fAnalysisMan->CreateH1("E_D0", "Edep in Detector0", 100, 0.0, 5.0*GeV);
+  fAnalysisMan->CreateH1("E_D1", "Edep in Detector1", 100, 0.0, 5.0*GeV);
+  fAnalysisMan->CreateH1("L_D0", "Track in Detector0", 100, 0.0, 1.4*m);
+  fAnalysisMan->CreateH1("L_D1", "Track in Detector1", 100, 0.0, 1.4*m);
+
+  fAnalysisMan->CreateNtuple("Muons", "Edep and TrackL");
+  fAnalysisMan->CreateNtupleDColumn("E_D0");
+  fAnalysisMan->CreateNtupleDColumn("E_D1");
+  fAnalysisMan->CreateNtupleDColumn("L_D0");
+  fAnalysisMan->CreateNtupleDColumn("L_D1");
+  fAnalysisMan->FinishNtuple();
 }
 
 

@@ -10,11 +10,12 @@
 
 //G4ThreadLocal muMagneticField* muDetectorConstruction::fMagneticField = 0;
 //G4ThreadLocal G4FieldManager* muDetectorConstruction::fFieldMgr = 0;
+G4ThreadLocal G4GlobalMagFieldMessenger* muDetectorConstruction::fMagFieldMessenger = 0;
 
 muDetectorConstruction::muDetectorConstruction()
-: G4VUserDetectorConstruction(), fDetectorMaterial(0), fLogicDetector(0), fDetLogicL(nullptr),
-  fMagnetPlateMaterial(0), fMagPlateL(nullptr), fDetMessenger(0), fPhysicalWorld(0),
-  fVisAttributes() {
+: G4VUserDetectorConstruction(), fDetectorMaterial(nullptr), fLogicDetector(), fDetLogicL(nullptr),
+  fMagnetPlateMaterial(nullptr), fMagPlateL(nullptr), fDetMessenger(nullptr), fPhysicalWorld(nullptr),
+  D0PV(nullptr), D1PV(nullptr), fVisAttributes() {
     InitMeasurement();
     DefineMaterials();
     fDetMessenger = new muDetectorMessenger(this);
@@ -60,8 +61,10 @@ G4VPhysicalVolume* muDetectorConstruction::Construct() {
 void muDetectorConstruction::ConstructSDandField() {
   //auto sdManager = G4SDManager::GetSDMpointer();
   fMagneticField = new muMagneticField();
-
-
+  G4ThreeVector fieldValue = G4ThreeVector();
+  fMagFieldMessenger = new G4GlobalMagFieldMessenger(fieldValue);
+  fMagFieldMessenger->SetVerboseLevel(1);
+  G4AutoDelete::Register(fMagFieldMessenger);
 }
 
 void muDetectorConstruction::DefineMaterials() {
@@ -117,7 +120,10 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
     G4double yCoord = fDetPlaced[ii] * fDistDetMagnet[ii] ;
     if (fDetPlaced[ii] > 0) fSetupTopHt = std::max(fSetupTopHt, std::abs(yCoord) + 0.5 * fDetPlaced[ii] * fDetectorThickness);
     if (fDetPlaced[ii] < 0) fSetupBotHt = std::min(fSetupBotHt, -1.0 *(std::abs(yCoord) + 0.5 * fDetPlaced[ii] * fDetectorThickness));
-    new G4PVPlacement(0, G4ThreeVector(0.0, yCoord, 0.0), fDetLogicL, detname, lWorld, false, 0);
+    if (ii == 0)
+      D0PV = new G4PVPlacement(0, G4ThreeVector(0.0, yCoord, 0.0), fDetLogicL, detname, lWorld, false, 0);
+    if (ii == 1)
+      D1PV = new G4PVPlacement(0, G4ThreeVector(0.0, yCoord, 0.0), fDetLogicL, detname, lWorld, false, 0);
     G4cout << " detector #" << (ii+1) << " at (0.0, " << yCoord << ", 0.0)" << G4endl;
   }
 

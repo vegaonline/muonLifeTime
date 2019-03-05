@@ -45,7 +45,7 @@ class muSteppingAction;
 class muSteppingAction : public G4UserSteppingAction{
 public:
   //muSteppingAction(muRunAction*, muHistoManager*);
-  muSteppingAction(muEventAction*);
+  muSteppingAction(const muDetectorConstruction*, muEventAction*);
   virtual ~muSteppingAction();
 
 public:
@@ -53,6 +53,7 @@ public:
 private:
   muRunAction* fRunAction;
   muEventAction* fEventAction;
+  const muDetectorConstruction* fDetector;
   //muHistoManager* muHisto;
 };
 

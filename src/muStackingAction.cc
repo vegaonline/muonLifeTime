@@ -32,7 +32,7 @@ G4ClassificationOfNewTrack muStackingAction::ClassifyNewTrack(const G4Track* myT
   G4ParticleDefinition* pd = myTrack->GetDefinition();
   G4String name = pd->GetParticleName();
   G4double ke = myTrack->GetKineticEnergy() / eV;
-  G4int thisTrackID = myTrack->GetTrackID();
+  //G4int thisTrackID = myTrack->GetTrackID();
   const G4VTouchable* touchableTrack = myTrack->GetTouchable();
   if (touchableTrack ) pVol = touchableTrack->GetVolume();
   if (pVol) lVol = pVol->GetLogicalVolume();

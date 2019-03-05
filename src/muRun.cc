@@ -17,6 +17,6 @@ muRun::~muRun() {
 }
 
 
-void muRun::RecordEvent(const G4Event* thisEvent) {
+void muRun::RecordEvent(const G4Event* ) {
   ++fNEvt;
 }

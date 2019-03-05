@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
   //runManager->SetUserInitialization(physList);
   runManager->SetUserInitialization(muPhys);
 
-  runManager->SetUserInitialization(new muActionInitialization());
+  runManager->SetUserInitialization(new muActionInitialization(muDet));
 
 /*
   auto muPrim = new muPrimaryGeneratorAction(muDet);

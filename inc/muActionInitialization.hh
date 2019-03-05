@@ -22,7 +22,7 @@ class muEventAction;
 
 class muActionInitialization : public G4VUserActionInitialization{
 public:
-  muActionInitialization();
+  muActionInitialization(muDetectorConstruction*);
   virtual ~muActionInitialization();
 
 public:

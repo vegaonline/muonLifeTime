@@ -38,7 +38,16 @@ public:
   virtual void BeginOfEventAction(const G4Event*);
   virtual void EndOfEventAction(const G4Event*);
 
-private: G4int fEventID;
+  inline void AddEdepMuD0(G4double de, G4double dl) { fEnergyMuD0 += de; fTrackMuD0 += dl;}
+  inline void AddEdepMuD1(G4double de, G4double dl) { fEnergyMuD1 += de; fTrackMuD1 += dl;}
+
+private:
+  G4int fEventID;
+  G4double fEnergyMuD0;
+  G4double fEnergyMuD1;
+  G4double fTrackMuD0;
+  G4double fTrackMuD1;
+
 };
 
 #endif

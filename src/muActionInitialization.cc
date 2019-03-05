@@ -8,8 +8,8 @@
 
 #include "muActionInitialization.hh"
 
-muActionInitialization::muActionInitialization()
-   : G4VUserActionInitialization(), fMasterRunAction(new muRunAction()){
+muActionInitialization::muActionInitialization(muDetectorConstruction* detConst)
+   : G4VUserActionInitialization(), fDetector(detConst), fMasterRunAction(new muRunAction()){
 
    }
 muActionInitialization::~muActionInitialization(){
@@ -21,7 +21,7 @@ void muActionInitialization::Build() const {
   SetUserAction(new muRunAction);
   auto eventAction = new muEventAction;
   SetUserAction(eventAction);
-  SetUserAction(new muSteppingAction(eventAction));
+  SetUserAction(new muSteppingAction(fDetector, eventAction));
   SetUserAction(new muStackingAction(eventAction));
 }
 

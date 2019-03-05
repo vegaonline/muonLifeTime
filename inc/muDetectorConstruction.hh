@@ -26,6 +26,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4FieldManager.hh"
 #include "G4UniformMagField.hh"
+#include "G4GlobalMagFieldMessenger.hh"
 #include "G4NistManager.hh"
 #include "G4RunManager.hh"
 #include "G4AutoDelete.hh"
@@ -41,6 +42,7 @@ class G4Material;
 class muDetectorMessenger;
 class muMagneticField;
 class G4UniformMagField;
+class G4GlobalMagFieldMessenger;
 class G4GenericMessenger;
 class G4VisAttributes;
 
@@ -52,6 +54,9 @@ public:
 public:
   virtual G4VPhysicalVolume* Construct();
   virtual void ConstructSDandField();
+
+  inline const G4VPhysicalVolume* GetD0PV() const {return D0PV;}
+  inline const G4VPhysicalVolume* GetD1PV() const {return D1PV;}
 
   void SetDetectorLength(G4double);
   void SetDetectorWidth(G4double);
@@ -92,6 +97,7 @@ private:
 private:
   //static G4ThreadLocal muMagneticField* fMagneticField;
   //static G4ThreadLocal G4FieldManager* fFieldMgr;
+  static G4ThreadLocal G4GlobalMagFieldMessenger* fMagFieldMessenger;
   G4Cache<muMagneticField*> fMagneticField;
 
   G4int fNumDetector;  // Total number of detectors of same size used
@@ -103,6 +109,8 @@ private:
   G4double fDetectorThickness; // Thickness of each detector
   G4Material* fDetectorMaterial;
   G4LogicalVolume* fDetLogicL;
+  G4VPhysicalVolume* D0PV;
+  G4VPhysicalVolume* D1PV;
   std::vector<G4LogicalVolume*> fLogicDetector;
   std::vector<G4VisAttributes*> fVisAttributes;
   G4double fSetupTopHt, fSetupBotHt;
