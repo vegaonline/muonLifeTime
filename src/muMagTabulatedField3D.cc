@@ -35,6 +35,7 @@ muMagTabulatedField3D::muMagTabulatedField3D(const char* fileName) : fInvertX(fa
 
   //Read Table dimensions
   inFile >> nx >> ny >> nz;
+  G4cout << "Table has dimension : " << nx << " X " << ny << " X " << nz << G4endl;
 
   // Setup storage space for the table
   xField.resize( nx );
@@ -52,18 +53,25 @@ muMagTabulatedField3D::muMagTabulatedField3D(const char* fileName) : fInvertX(fa
     }
   }
 
-  // The line where the second character is "0" considered as the last line of the header
+  // The line with "#" is the header
   do {
     inFile.getline(buffer, 256);
-  } while (buffer[1]!='0');
+  } while (buffer[1]!='#');
 
   // Read data
   double fXval, fYval, fZval, fBX, fBY, fBZ;
-  double permeability;   // not used for the muon study
+  double permeability, muval = 0.0;   // not used for the muon study
+  int mediaCount = 0;
+  
   for (ix = 0; ix < nx; ix++) {
     for (iy = 0; iy < ny; iy++) {
       for (iz = 0; iz < nz; iz++){
         inFile >> fXval >> fYval >> fZval >> fBX >> fBY >> fBZ >> permeability;
+	if (muval != permeability){
+	  ++mediaCount;
+	  muval = permeability;
+	  G4cout << " Media # " << mediaCount << " Permeability: " << muval << G4endl;
+	}
         if (ix == 0 && iy == 0 && iz == 0) {
           fMinX = fXval * lenUnit;
           fMinY = fYval * lenUnit;

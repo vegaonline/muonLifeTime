@@ -40,8 +40,6 @@
 #include "G4CoupledTransportation.hh"
 #include "Randomize.hh"
 
-#include "G4BlineTracer.hh"
-
 #include "muDetectorConstruction.hh"
 #include "muPhysicsList.hh"
 #include "muPrimaryGeneratorAction.hh"
