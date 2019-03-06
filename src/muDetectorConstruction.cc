@@ -19,6 +19,7 @@ muDetectorConstruction::muDetectorConstruction()
     fMagneticField.Put(0);
     InitMeasurement();
     DefineMaterials();
+    fMagFileName = "magField3D.tab";
     fDetMessenger = new muDetectorMessenger(this);
   }
 
@@ -68,9 +69,12 @@ void muDetectorConstruction::ConstructSDandField() {
   fMagFieldMessenger->SetVerboseLevel(1);
   G4AutoDelete::Register(fMagFieldMessenger);
   */
+   
+  fMagFileName = "GenerateMagFieldTable/magField3D.tab";
+
 #if MAG
   if (fMagneticField.Get() == 0) {
-    G4MagneticField* fMagF = new muMagTabulatedField3D("magField3D.tab");
+    G4MagneticField* fMagF = new muMagTabulatedField3D(fMagFileName);
     fMagneticField.Put(fMagF);
 
     G4FieldManager* pFieldMgr = G4TransportationManager::GetTransportationManager()->GetFieldManager();

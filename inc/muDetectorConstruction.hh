@@ -107,6 +107,8 @@ private:
   static G4ThreadLocal G4GlobalMagFieldMessenger* fMagFieldMessenger;
   //G4Cache<muMagneticField*> fMagneticField;
   G4Cache<G4MagneticField*> fMagneticField;
+  
+  G4String fMagFileName = "";
 
   G4int fNumDetector;  // Total number of detectors of same size used
   std::vector<G4int>    fDetPlaced;    // position of i-th detector : 0 if above magnet and 1 if below magnet

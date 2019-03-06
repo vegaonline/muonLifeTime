@@ -112,7 +112,7 @@
 #/gps/ene/min 2.5 MeV
 #/gps/ene/max 7.0 MeV
 
-/globalField/setValue 0.0 1.0 0.0 tesla
+#/globalField/setValue 0.0 1.0 0.0 tesla
 
 /gun/particle mu+
 /gun/energy 4.0 GeV

@@ -28,7 +28,7 @@
 #/analysis/setFileName indFiss
 #/analysis/H1/SetActivationToAll true
 
-/globalField/setValue 0.0 1.0 0.0 tesla
+# /globalField/setValue 0.0 1.0 0.0 tesla
 
 /gun/particle mu+
 /gun/energy 4.0 GeV

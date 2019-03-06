@@ -82,7 +82,7 @@ int main() {
   outFile << buffer << std::endl;  // the first line is blank
 
   buffer = " ";
-  outFile << buffer << nx << "    " << ny << "    " << nz << std::endl;
+  outFile << buffer << nx << "    " << (3 * ny) << "    " << nz << std::endl;
   buffer = "  ";
 
    // Insert Headers in rows

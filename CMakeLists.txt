@@ -32,6 +32,7 @@ target_link_libraries(muonLife ${Geant4_LIBRARIES})
 set(muonLife_SCRIPTS
   run.mac
   vis.mac
+  GenerateMagFieldTable/magField3D.tab
 )
 foreach(_script ${muonLife_SCRIPTS})
   configure_file(
