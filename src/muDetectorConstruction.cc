@@ -36,8 +36,13 @@ void muDetectorConstruction::InitMeasurement(){
   fDetectorThickness    =   60.0 * mm;
   fMagnetPlateLength    = 1000.0 * mm;
   fMagnetPlateWidth     = 1000.0 * mm;
-  fMagnetPlateThickness =   56.0 * mm;
+  fMagnetPlateThickness =   55.0 * mm;   // 56.0 * mm;
   fMagnetPlateGap       =   40.0 * mm;
+  fMagnetPlateStandLen  =  100.0 * mm;   // X
+  fMagnetPlateStandWid  =   40.0 * mm;   // Y
+  fMagnetPlateStandThk  =   20.0 * mm;   // Z
+
+  fAirGap               =    1.0 * mm;   // Air Gap
   fNumDetector          =    2;
   fDetPlaced.push_back(1);
   fTmpGap = 50.0 * mm + fMagnetPlateThickness + 0.5 * fMagnetPlateGap;  // D_detMag + H_MagPlate + 0.5 * MagPlatesGap
@@ -69,7 +74,7 @@ void muDetectorConstruction::ConstructSDandField() {
   fMagFieldMessenger->SetVerboseLevel(1);
   G4AutoDelete::Register(fMagFieldMessenger);
   */
-   
+
   fMagFileName = "GenerateMagFieldTable/magField3D.tab";
 
 #if MAG
@@ -122,12 +127,12 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   fMagnetPlateMaterial = steel;
   fDetectorMaterial = scintillator;
 
-  // The World
+  // The World --------------------------------------------
   auto sWorld = new G4Box("WorldLabS", 0.5 * fWorldLength, 0.5 * fWorldThickness, 0.5 * fWorldWidth);
   auto lWorld  = new G4LogicalVolume(sWorld, fWorldMaterial, "WorldLabL");
   fPhysicalWorld = new G4PVPlacement(0, G4ThreeVector(), lWorld, "WorldLabP", 0, false, 0);
 
-  // Detectors
+  // Detectors --------------------------------------------
   fSetupTopHt = -99999.0;
   fSetupBotHt = 99999.0;
 
@@ -147,6 +152,10 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   }
 
   // Magnet
+  //  There are two type of tiles one with and the other without tiles.
+  auto fMagTileTop = new G4Box("MagPlateTopS", 0.5 * fMagnetPlateLength, )
+
+  /*
   auto magBox = new G4Box("MagnetPlate", 0.5 * fMagnetPlateLength, 0.5 * fMagnetPlateThickness, 0.5 * fMagnetPlateWidth);
   auto airBox = new G4Box("AirBlock", 0.5 * fMagnetPlateLength, 0.5 * fMagnetPlateGap, 0.5 * fMagnetPlateWidth);
   fMagPlateL = new G4LogicalVolume(magBox, fMagnetPlateMaterial, "MagnetPlate");  // Plate 1 is at +Y && Plate 2 is at -Y
@@ -182,7 +191,7 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
     fLogicDetector[ij]->SetVisAttributes(visAttrib);
   }
   fVisAttributes.push_back(visAttrib);
-
+*/
   PrintParameters();
   return fPhysicalWorld;
 }

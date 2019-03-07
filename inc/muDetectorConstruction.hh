@@ -107,7 +107,7 @@ private:
   static G4ThreadLocal G4GlobalMagFieldMessenger* fMagFieldMessenger;
   //G4Cache<muMagneticField*> fMagneticField;
   G4Cache<G4MagneticField*> fMagneticField;
-  
+
   G4String fMagFileName = "";
 
   G4int fNumDetector;  // Total number of detectors of same size used
@@ -129,9 +129,11 @@ private:
   G4double fMagnetPlateWidth;   // Width of Magnet
   G4double fMagnetPlateThickness;   // Thickness of Magnet
   G4double fMagnetPlateGap;     // Gap of Magnet
+  G4double fAirGap;
   G4Material* fMagnetPlateMaterial;
   G4LogicalVolume* fMagPlateL; //LogicMagnet;
   G4LogicalVolume* fMagAirBlockL;
+
 
   G4double fWorldLength;
   G4double fWorldWidth;
