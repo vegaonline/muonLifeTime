@@ -20,6 +20,8 @@
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
+#include "G4UnionSolid.hh"
+#include "G4IntersectionSolid.hh"
 #include "G4VisAttributes.hh"
 #include "G4UnitsTable.hh"
 #include "G4PhysicalConstants.hh"
@@ -129,9 +131,14 @@ private:
   G4double fMagnetPlateWidth;   // Width of Magnet
   G4double fMagnetPlateThickness;   // Thickness of Magnet
   G4double fMagnetPlateGap;     // Gap of Magnet
+  G4double fMagnetPlateSlotLen, fMagnetPlateSlotWidth, fMagnetPlateSlotThk;
+  G4double fMagnetPlateStandLen, fMagnetPlateStandThk, fMagnetPlateStandWid;
   G4double fAirGap;
   G4Material* fMagnetPlateMaterial;
   G4LogicalVolume* fMagPlateL; //LogicMagnet;
+  G4LogicalVolume* fMagPlateTilesL;
+  G4LogicalVolume* fMagPlateSlottedTilesNL;
+  G4LogicalVolume* fMagPlateSlottedTilesSL;
   G4LogicalVolume* fMagAirBlockL;
 
 
@@ -144,6 +151,9 @@ private:
   G4Material* air;
   G4Material* scintillator;
   G4Material* steel;
+
+  G4ThreeVector TM;
+  G4RotationMatrix* RM;
 
 };
 
