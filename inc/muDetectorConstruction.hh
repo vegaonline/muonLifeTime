@@ -21,7 +21,7 @@
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
 #include "G4UnionSolid.hh"
-#include "G4IntersectionSolid.hh"
+#include "G4SubtractionSolid.hh"
 #include "G4VisAttributes.hh"
 #include "G4UnitsTable.hh"
 #include "G4PhysicalConstants.hh"
@@ -137,6 +137,7 @@ private:
   G4Material* fMagnetPlateMaterial;
   G4LogicalVolume* fMagPlateL; //LogicMagnet;
   G4LogicalVolume* fMagPlateTilesL;
+  G4LogicalVolume* fMagPlateTilesUsedL;
   G4LogicalVolume* fMagPlateSlottedTilesNL;
   G4LogicalVolume* fMagPlateSlottedTilesSL;
   G4LogicalVolume* fMagAirBlockL;
