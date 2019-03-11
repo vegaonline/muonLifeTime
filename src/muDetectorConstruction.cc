@@ -187,6 +187,8 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileS = new G4UnionSolid("TileTop", fMagTopTileS123, fMagTileStand, 0, TM); // Tile top with right most stand 1, 2, 3, 4
   fMagPlateTilesL = new G4LogicalVolume(fMagTopTileS, fMagnetPlateMaterial, "MagTile");
+  RM->rotateZ(180.0*deg);
+  
   fMagPlateTilesUsedL = fMagPlateTilesL;
 
   // Plate top with slot and four stands TYPE: A with slot at North   #2 and #6
@@ -197,6 +199,8 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileSlottedNS = new G4SubtractionSolid("TileTopSlotted", fMagTopTileS, fMagTileSlot, 0, TM);
   fMagPlateSlottedTilesNL = new G4LogicalVolume(fMagTopTileSlottedNS, fMagnetPlateMaterial, "MagTileSlottedN");
+
+  G4VSolid* fMagTopTileSlottedNSI - new G4SubtractionSolid("TileTopSlottedI", fMagTopTileS, fMagTileSlot, RM, TM);
 
   // Plate top with slot and four stands TYPE: B with slot at South  #3 and $7
   //dx = 0.5 * fMagnetPlateSlotLen;
@@ -224,19 +228,21 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   TM.setX(-1.0 * dx); TM.setY(dy - fMagnetPlateThickness - 2.0 * fMagnetPlateGap); TM.setZ(-1.0 * dz);
   RM->rotateZ(180.0 * deg);
   fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #9
+RM->set(0,0,0);
 
   // Side -X:2 TOP
   dz -= fMagnetPlateWidth;
   TM.setX(-1.0 * dx); TM.setY(dy); TM.setZ(-1.0 * dz);
-  RM->rotateZ(-180.0 * deg);
+//  RM->rotateZ(-180.0 * deg);
   fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesNL, TM, RM);     // #2
 
   // Side -X:10 BOTTOM
   TM.setX(-1.0 * dx); TM.setY(dy - fMagnetPlateThickness - 2.0 * fMagnetPlateGap); TM.setZ(-1.0 * dz);
   RM->rotateZ(180.0 * deg);
   fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #10
+  RM->set(0,0,0);
 
-  /*
+/*
   //dx = -0.5 * fMagnetPlateLength;
   //dy = 0.5 * fMagnetPlateSlotThk;
   dz -= fMagnetPlateWidth;
