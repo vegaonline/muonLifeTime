@@ -16,7 +16,7 @@
 #
 #
 # Use this open statement to create an OpenGL view:
-/vis/open OGL 1020x900-0+0
+/vis/open OGL 820x700-0+0
 #
 # Use this open statement to create a .prim file suitable for
 # viewing in DAWN:
@@ -40,7 +40,7 @@
 #
 #
 # Specify view angle:
-/vis/viewer/set/viewpointThetaPhi 9. 15.
+/vis/viewer/set/viewpointThetaPhi 40 40 # 9. 15.
 #/vis/viewer/set/viewpointThetaPhi 35. 50.
 #
 # Specify zoom value:
@@ -119,5 +119,5 @@
 /gun/position 0.0 500.0 0.0 mm
 /gun/direction 0.0 -1.0 0.0
 
-/run/beamOn 1000
+/run/beamOn 100000
 

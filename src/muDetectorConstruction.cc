@@ -161,7 +161,7 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   //  There are two type of tiles one with and the other without tiles.
   auto fMagTilePlateTop = new G4Box("MagTilePlateTopS", 0.5 * fMagnetPlateLength, 0.5 * fMagnetPlateThickness, 0.5 * fMagnetPlateWidth);
   auto fMagTileSlot     = new G4Box("MagTileSlotTopS", 0.5 * fMagnetPlateSlotLen, 0.5 * fMagnetPlateSlotThk, 0.5 * fMagnetPlateSlotWidth);
-  auto fMagTileStand    = new G4Box("MagTileStand", 0.5 * fMagnetPlateStandLen, 0.5 * fMagnetPlateStandThk, 0.5 * fMagnetPlateStandWid);
+  auto fMagTileStand    = new G4Box("MagTileStandS", 0.5 * fMagnetPlateStandLen, 0.5 * fMagnetPlateStandThk, 0.5 * fMagnetPlateStandWid);
 
   G4double dx = 0.0, dy = 0.0, dz = 0.0;
   RM->set(0.0, 0.0, 0.0);
@@ -190,50 +190,66 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   fMagPlateTilesUsedL = fMagPlateTilesL;
 
   // Plate top with slot and four stands TYPE: A with slot at North   #2 and #6
-  dx =- 0.5 * fMagnetPlateLength + fMagnetPlateSlotLen;
-  dy =   (0.5 * fMagnetPlateSlotThk - 0.5 * fMagnetPlateThickness);
+  dx = 0.5 * fMagnetPlateSlotLen;
+  dy = 0.5 * fMagnetPlateSlotThk - 0.5 * fMagnetPlateThickness;
   dz = -0.5 * fMagnetPlateWidth + 0.5 * fMagnetPlateSlotWidth;
+  G4cout << "--->> " << dx << "  " << dy << "  " << dz << G4endl;
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
-  G4cout << "---->>   " <<  dx << "   " << dy << "    " << dz << G4endl;
   G4VSolid* fMagTopTileSlottedNS = new G4SubtractionSolid("TileTopSlotted", fMagTopTileS, fMagTileSlot, 0, TM);
   fMagPlateSlottedTilesNL = new G4LogicalVolume(fMagTopTileSlottedNS, fMagnetPlateMaterial, "MagTileSlottedN");
+
   // Plate top with slot and four stands TYPE: B with slot at South  #3 and $7
-  dx = 0.5 * fMagnetPlateSlotLen;
-  dy =  -0.5 * fMagnetPlateStandThk; // -0.5 * fMagnetPlateSlotThk + 0.5 * fMagnetPlateThickness;
+  //dx = 0.5 * fMagnetPlateSlotLen;
+  //dy =  -0.5 * fMagnetPlateStandThk; // -0.5 * fMagnetPlateSlotThk + 0.5 * fMagnetPlateThickness;
   dz = 0.5 * fMagnetPlateWidth - 0.5 * fMagnetPlateSlotWidth;
+  G4cout << "--->> " << dx << "  " << dy << "  " << dz << G4endl;
+  //exit(0);
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileSlottedSS = new G4SubtractionSolid("TileTopSlotted", fMagTopTileS, fMagTileSlot, 0, TM);
   fMagPlateSlottedTilesSL = new G4LogicalVolume(fMagTopTileSlottedSS, fMagnetPlateMaterial, "MagTileSlottedS");
 
   // Assembling the magnet with plates
   auto fMagnetAssembly = new G4AssemblyVolume();
+
   //------------- TOP ------------------
-  // Side -X
-  dx = -0.5 * fMagnetPlateLength;
-  dy = 0.5 * fMagnetPlateSlotThk;
-  dz = -0.5 * fMagnetPlateWidth - fMagnetPlateWidth;
-  TM.setX(dx); TM.setY(dy); TM.setZ(dz);
-  // fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, 0);     // #1
-  dx = -0.5 * fMagnetPlateLength;
-  dy = 0.5 * fMagnetPlateSlotThk;
-  dz = -0.5 * fMagnetPlateWidth;
-  TM.setX(dx); TM.setY(dy); TM.setZ(dz);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesNL, TM, 0);     // #2
-/*
-  dx = -0.5 * fMagnetPlateLength;
-  dy = 0.5 * fMagnetPlateSlotThk;
-  dz = 0.5 * fMagnetPlateWidth;
-  TM.setX(dx); TM.setY(dy); TM.setZ(dz);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesSL, TM, RM);     // #3
-  dx = -0.5 * fMagnetPlateLength;
-  dy = 0.5 * fMagnetPlateSlotThk;
-  dz = 0.5 * fMagnetPlateWidth + fMagnetPlateWidth;
-  TM.setX(dx); TM.setY(dy); TM.setZ(dz);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #4
-  // Side +X
+  // Side -X:1 TOP
+  RM->set(0.0, 0.0, 0.0);
   dx = 0.5 * fMagnetPlateLength;
   dy = 0.5 * fMagnetPlateSlotThk;
-  dz = -0.5 * fMagnetPlateWidth - fMagnetPlateWidth;
+  dz = 1.5 * fMagnetPlateWidth;
+  TM.setX(-1.0 * dx); TM.setY(dy); TM.setZ(-1.0 * dz);
+  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #1
+
+  // Side -X:9 BOTTOM
+  TM.setX(-1.0 * dx); TM.setY(dy - fMagnetPlateThickness - 2.0 * fMagnetPlateGap); TM.setZ(-1.0 * dz);
+  RM->rotateZ(180.0 * deg);
+  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #9
+
+  // Side -X:2 TOP
+  dz -= fMagnetPlateWidth;
+  TM.setX(-1.0 * dx); TM.setY(dy); TM.setZ(-1.0 * dz);
+  RM->rotateZ(-180.0 * deg);
+  fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesNL, TM, RM);     // #2
+
+  // Side -X:10 BOTTOM
+  TM.setX(-1.0 * dx); TM.setY(dy - fMagnetPlateThickness - 2.0 * fMagnetPlateGap); TM.setZ(-1.0 * dz);
+  RM->rotateZ(180.0 * deg);
+  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #10
+
+  /*
+  //dx = -0.5 * fMagnetPlateLength;
+  //dy = 0.5 * fMagnetPlateSlotThk;
+  dz -= fMagnetPlateWidth;
+  TM.setX(-1.0 * dx); TM.setY(dy); TM.setZ(-1.0 * dz);
+  fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesSL, TM, RM);     // #3
+  //dx = -0.5 * fMagnetPlateLength;
+  //dy = 0.5 * fMagnetPlateSlotThk;
+  dz -= fMagnetPlateWidth;
+  TM.setX(-1.0 * dx); TM.setY(dy); TM.setZ(-1.0 * dz);
+  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #4
+
+  // Side +X
+  dx = -dx; //0.5 * fMagnetPlateLength;
   TM.setX(dx); TM.setY(dy); TM.setZ(dz);
   fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #5
 
@@ -276,8 +292,8 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #16
   TM.setX(0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(0.5 * fMagnetPlateWidth + fMagnetPlateWidth);
   fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #9
-
 */
+
   TM.setX(0.0); TM.setY(0.0); TM.setZ(0.0);
   fMagnetAssembly->MakeImprint(lWorld, TM, RM); // placing at the origin of the world volume
 
@@ -291,10 +307,6 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   fMagPlateSlottedTilesNL->SetVisAttributes(visAttrib);
   fMagPlateSlottedTilesSL->SetVisAttributes(visAttrib);
   fVisAttributes.push_back(visAttrib);
-
-  visAttrib = new G4VisAttributes(G4Colour(0.1, 0.4, 0.7));  // for magnet
-  visAttrib->SetVisibility(false);
-  fMagPlateTilesL->SetVisAttributes(visAttrib);
 
   visAttrib = new G4VisAttributes(G4Color(0.5, 0.4, 0.7));  // G4Colour(0.9, 0.4, 0.6));
   for (auto ij=0; ij < fNumDetector; ij++) {
