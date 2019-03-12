@@ -166,41 +166,46 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   G4double dx = 0.0, dy = 0.0, dz = 0.0;
   RM->set(0.0, 0.0, 0.0);
   // Plate top without slot but with four stands
-  dx = -0.5 * fMagnetPlateLength +0.5 * fMagnetPlateStandLen;
+  dx = -0.5 * fMagnetPlateLength + 0.5 * fMagnetPlateStandLen;
   dy = -0.5 * fMagnetPlateThickness - 0.5 * fMagnetPlateStandThk;
   dz = -0.5 * fMagnetPlateWidth + 0.5 * fMagnetPlateStandWid;
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileS1 = new G4UnionSolid("TileTopStand1", fMagTilePlateTop, fMagTileStand, 0, TM); // Tile top with left most top stand 1
-  dx = -0.5 * fMagnetPlateLength +0.5 * fMagnetPlateStandLen;
+  dy = -1.0 * dy; TM.setY(dy);
+  G4VSolid* fMagTopTileSI1 = new G4UnionSolid("TileTopStand1", fMagTilePlateTop, fMagTileStand, 0, TM); // Tile top with left most top stand 1
+  dx = -0.5 * fMagnetPlateLength + 0.5 * fMagnetPlateStandLen;
   dy = -0.5 * fMagnetPlateThickness - 0.5 * fMagnetPlateStandThk;
   dz = 0.5 * fMagnetPlateWidth - 0.5 * fMagnetPlateStandWid;
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileS12 = new G4UnionSolid("TileTopStand12", fMagTopTileS1, fMagTileStand, 0, TM); // Tile top with left most bot stand 1, 2
+  dy = -1.0 * dy; TM.setY(dy);
+  G4VSolid* fMagTopTileSI12 = new G4UnionSolid("TileTopStand12", fMagTopTileSI1, fMagTileStand, 0, TM); // Tile top with left most bot stand 1, 2
   dx = 0.5 * fMagnetPlateLength -0.5 * fMagnetPlateStandLen;
   dy = -0.5 *fMagnetPlateThickness - 0.5 * fMagnetPlateStandThk;
   dz = 0.5 * fMagnetPlateWidth - 0.5 * fMagnetPlateStandWid;
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileS123 = new G4UnionSolid("TileTopStand123", fMagTopTileS12, fMagTileStand, 0, TM); // Tile top with right most bot stand 1, 2, 3
+  dy = -1.0 * dy; TM.setY(dy);
+  G4VSolid* fMagTopTileSI123 = new G4UnionSolid("TileTopStand123", fMagTopTileSI12, fMagTileStand, 0, TM); // Tile top with right most bot stand 1, 2, 3
   dx = 0.5 * fMagnetPlateLength - 0.5 * fMagnetPlateStandLen;
   dy = -0.5 * fMagnetPlateThickness - 0.5 * fMagnetPlateStandThk;
   dz = -0.5 * fMagnetPlateWidth + 0.5 * fMagnetPlateStandWid;
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileS = new G4UnionSolid("TileTop", fMagTopTileS123, fMagTileStand, 0, TM); // Tile top with right most stand 1, 2, 3, 4
+  dy = -1.0 * dy; TM.setY(dy);
+  G4VSolid* fMagTopTileIS = new G4UnionSolid("TileTop", fMagTopTileSI123, fMagTileStand, 0, TM); // Tile top with right most stand 1, 2, 3, 4
   fMagPlateTilesL = new G4LogicalVolume(fMagTopTileS, fMagnetPlateMaterial, "MagTile");
-  RM->rotateZ(180.0*deg);
-  
-  fMagPlateTilesUsedL = fMagPlateTilesL;
+  fMagPlateTilesIL = new G4LogicalVolume(fMagTopTileIS, fMagnetPlateMaterial, "MagTileI");
 
   // Plate top with slot and four stands TYPE: A with slot at North   #2 and #6
   dx = 0.5 * fMagnetPlateSlotLen;
   dy = 0.5 * fMagnetPlateSlotThk - 0.5 * fMagnetPlateThickness;
   dz = -0.5 * fMagnetPlateWidth + 0.5 * fMagnetPlateSlotWidth;
-  G4cout << "--->> " << dx << "  " << dy << "  " << dz << G4endl;
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileSlottedNS = new G4SubtractionSolid("TileTopSlotted", fMagTopTileS, fMagTileSlot, 0, TM);
+  G4VSolid* fMagTopTileSlottedNIS = new G4SubtractionSolid("TileTopSlotted", fMagTopTileIS, fMagTileSlot, 0, TM);
   fMagPlateSlottedTilesNL = new G4LogicalVolume(fMagTopTileSlottedNS, fMagnetPlateMaterial, "MagTileSlottedN");
-
-  G4VSolid* fMagTopTileSlottedNSI - new G4SubtractionSolid("TileTopSlottedI", fMagTopTileS, fMagTileSlot, RM, TM);
+  fMagPlateSlottedTilesNIL = new G4LogicalVolume(fMagTopTileSlottedNIS, fMagnetPlateMaterial, "MagTileSlottedN");
 
   // Plate top with slot and four stands TYPE: B with slot at South  #3 and $7
   //dx = 0.5 * fMagnetPlateSlotLen;
@@ -210,7 +215,9 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   //exit(0);
   TM.setX(dx);  TM.setY(dy); TM.setZ(dz);
   G4VSolid* fMagTopTileSlottedSS = new G4SubtractionSolid("TileTopSlotted", fMagTopTileS, fMagTileSlot, 0, TM);
+  G4VSolid* fMagTopTileSlottedSIS = new G4SubtractionSolid("TileTopSlotted", fMagTopTileIS, fMagTileSlot, 0, TM);
   fMagPlateSlottedTilesSL = new G4LogicalVolume(fMagTopTileSlottedSS, fMagnetPlateMaterial, "MagTileSlottedS");
+  fMagPlateSlottedTilesSIL = new G4LogicalVolume(fMagTopTileSlottedSIS, fMagnetPlateMaterial, "MagTileSlottedS");
 
   // Assembling the magnet with plates
   auto fMagnetAssembly = new G4AssemblyVolume();
@@ -222,26 +229,20 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   dy = 0.5 * fMagnetPlateSlotThk;
   dz = 1.5 * fMagnetPlateWidth;
   TM.setX(-1.0 * dx); TM.setY(dy); TM.setZ(-1.0 * dz);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #1
+  //fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #1
 
   // Side -X:9 BOTTOM
   TM.setX(-1.0 * dx); TM.setY(dy - fMagnetPlateThickness - 2.0 * fMagnetPlateGap); TM.setZ(-1.0 * dz);
-  RM->rotateZ(180.0 * deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #9
-RM->set(0,0,0);
+  //fMagnetAssembly->AddPlacedVolume(fMagPlateTilesIL, TM, RM);     // #9
 
   // Side -X:2 TOP
   dz -= fMagnetPlateWidth;
   TM.setX(-1.0 * dx); TM.setY(dy); TM.setZ(-1.0 * dz);
-//  RM->rotateZ(-180.0 * deg);
   fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesNL, TM, RM);     // #2
 
   // Side -X:10 BOTTOM
   TM.setX(-1.0 * dx); TM.setY(dy - fMagnetPlateThickness - 2.0 * fMagnetPlateGap); TM.setZ(-1.0 * dz);
-  RM->rotateZ(180.0 * deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #10
-  RM->set(0,0,0);
-
+  fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesNIL, TM, RM);     // #10
 /*
   //dx = -0.5 * fMagnetPlateLength;
   //dy = 0.5 * fMagnetPlateSlotThk;
@@ -309,9 +310,12 @@ RM->set(0,0,0);
   fVisAttributes.push_back(visAttrib);
 
   visAttrib = new G4VisAttributes(G4Colour(0.1, 0.4, 0.7));  // for magnet
-  fMagPlateTilesUsedL->SetVisAttributes(visAttrib);
+  fMagPlateTilesL->SetVisAttributes(visAttrib);
+  fMagPlateTilesIL->SetVisAttributes(visAttrib);
   fMagPlateSlottedTilesNL->SetVisAttributes(visAttrib);
+  fMagPlateSlottedTilesNIL->SetVisAttributes(visAttrib);
   fMagPlateSlottedTilesSL->SetVisAttributes(visAttrib);
+  fMagPlateSlottedTilesSIL->SetVisAttributes(visAttrib);
   fVisAttributes.push_back(visAttrib);
 
   visAttrib = new G4VisAttributes(G4Color(0.5, 0.4, 0.7));  // G4Colour(0.9, 0.4, 0.6));
