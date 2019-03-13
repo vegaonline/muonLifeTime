@@ -45,10 +45,10 @@ void muDetectorConstruction::InitMeasurement(){
   fCoilLength           = 500.0 * mm;
   fCoilThickness        =  15.0 * mm;
   fCoilHeight           = 2.0 * (fMagnetPlateThickness + fMagnetPlateStandThk); //150.0 * mm;
-  fCoilWidth            = 2.0 * (fMagnetPlateWidth - fCoilThickness); //470.0 * mm;
-  fMagnetPlateSlotLen   =   fCoilLength + 2.0 * fAirGap;  // slot length
-  fMagnetPlateSlotWidth =   fCoilWidth + 2.0 * fAirGap;  // slot width
-  fMagnetPlateSlotThk   =   fMagnetPlateThickness + fMagnetPlateStandThk;
+  fCoilWidth            = 2.0 * fMagnetPlateWidth; //470.0 * mm;
+  fMagnetPlateSlotLen   =   fCoilLength + 2.0 * fAirGap;  // slot length       // ------ X ------
+  fMagnetPlateSlotWidth =   fCoilWidth + 2.0 * fAirGap;  // slot width        // ------ Z ------
+  fMagnetPlateSlotThk   =   fMagnetPlateThickness + fMagnetPlateStandThk;  // ------ Y ------
   fNumDetector          =    2;
   fDetPlaced.push_back(1);
   fTmpGap = 50.0 * mm + fMagnetPlateThickness + 0.5 * fMagnetPlateGap;  // D_detMag + H_MagPlate + 0.5 * MagPlatesGap
@@ -168,11 +168,11 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   // Magnet  and Coil --------------------------------------------------------------------------
   //  There are two type of tiles one with and the other without tiles.
   auto fMagTilePlateTop = new G4Box("MagTilePlateTopS", 0.5 * fMagnetPlateLength, 0.5 * fMagnetPlateThickness, 0.5 * fMagnetPlateWidth);
-  auto fMagTileSlot     = new G4Box("MagTileSlotTopS", 0.5 * fMagnetPlateSlotLen, 0.5 * fMagnetPlateSlotThk, 0.5 * fMagnetPlateSlotWidth);
+  auto fMagTileSlot     = new G4Box("MagTileSlotTopS", 0.5 * (fMagnetPlateSlotLen + 2.0 * fAirGap), 0.5 * (fMagnetPlateSlotThk +2.0 * fAirGap), 0.5 * fMagnetPlateSlotWidth);
   auto fMagTileStand    = new G4Box("MagTileStandS", 0.5 * fMagnetPlateStandLen, 0.5 * fMagnetPlateStandThk, 0.5 * fMagnetPlateStandWid);
 
-  auto fMagnetCoilO     = new G4Box("MagnetCoilOut", 0.5 * fCoilLength, 0.5 * fCoilWidth, 0.5 * fCoilHeight);
-  auto fMagnetCoilI     = new G4Box("MagnetCoilIn", 0.5 * fCoilLength, 0.5 * (fCoilWidth - fCoilThickness), 0.5 * (fCoilHeight - fCoilThickness));
+  auto fMagnetCoilO     = new G4Box("MagnetCoilOut", 0.5 * (fCoilLength + fAirGap), 0.5 * (fCoilWidth+fAirGap), 0.5 * fCoilHeight);
+  auto fMagnetCoilI     = new G4Box("MagnetCoilIn", 0.5 * fCoilLength, 0.5 * (fCoilWidth - 2.0 * fCoilThickness), 0.5 * (fCoilHeight - fCoilThickness));
   G4VSolid* fMagCoilS   = new G4SubtractionSolid("CuCoilS", fMagnetCoilO, fMagnetCoilI, 0, G4ThreeVector(0,0,0));
   fMagnetCoilL = new G4LogicalVolume(fMagCoilS, fCoilMaterial, "MagnetCoil");
   G4cout << fCoilLength << "   " << fCoilWidth << "   " << fCoilThickness << "   " << fCoilHeight << G4endl; //exit(0);
@@ -314,49 +314,8 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
 
   // Place the Coil
   TM.setX(0.0); TM.setY(0.0); TM.setZ(0.0);
-  fMagnetAssembly->AddPlacedVolume(fMagnetCoilL, TM, RM);
+  // fMagnetAssembly->AddPlacedVolume(fMagnetCoilL, TM, RM);
 
-/*
-  dx = 0.5 * fMagnetPlateLength;
-  dy = 0.5 * fMagnetPlateSlotThk;
-  dz = 0.5 * fMagnetPlateWidth;
-  TM.setX(dx); TM.setY(dy); TM.setZ(dz);
-  RM->set(0.0, 0.0, 0.0);      RM->rotateX(180.0 * deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesSL, TM, RM);     // #6
-  RM->set(0.0, 0.0, 0.0);
-  dx = 0.5 * fMagnetPlateLength;
-  dy = 0.5 * fMagnetPlateSlotThk;
-  dz = -0.5 * fMagnetPlateWidth;
-  TM.setX(dx); TM.setY(dy); TM.setZ(dz);
-  RM->rotateZ(180.0*deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateSlottedTilesNL, TM, RM);     // #7
-  dx = 0.5 * fMagnetPlateLength;
-  dy = 0.5 * fMagnetPlateSlotThk;
-  dz = -0.5 * fMagnetPlateWidth - fMagnetPlateWidth;
-  TM.setX(dx); TM.setY(dy); TM.setZ(dz);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #8
-
-  //---------------- BOTTOM --------------------------------
-
-  // Side -X
-  TM.setX(-0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(-(0.5 * fMagnetPlateWidth + fMagnetPlateWidth)); RM->rotateX(180.0*deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #10
-  TM.setX(-0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(-0.5 * fMagnetPlateWidth); RM->rotateX(180.0*deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #11
-  TM.setX(-0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(0.5 * fMagnetPlateWidth); RM->rotateY(180.0*deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #12
-  TM.setX(-0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(0.5 * fMagnetPlateWidth + fMagnetPlateWidth);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #13
-  // Sid +X
-  TM.setX(0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(-(0.5 * fMagnetPlateWidth + fMagnetPlateWidth));
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #14
-  TM.setX(0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(-0.5 * fMagnetPlateWidth);  RM->rotateY(180.0*deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #15
-  TM.setX(0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(0.5 * fMagnetPlateWidth); RM->rotateY(-180.0*deg);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #16
-  TM.setX(0.5 * fMagnetPlateLength); TM.setY(fMagnetPlateSlotThk); TM.setZ(0.5 * fMagnetPlateWidth + fMagnetPlateWidth);
-  fMagnetAssembly->AddPlacedVolume(fMagPlateTilesL, TM, RM);     // #9
-*/
 
   TM.setX(0.0); TM.setY(0.0); TM.setZ(0.0);
   fMagnetAssembly->MakeImprint(lWorld, TM, RM); // placing at the origin of the world volume
