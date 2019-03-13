@@ -143,6 +143,13 @@ private:
   G4LogicalVolume* fMagPlateSlottedTilesSL;
   G4LogicalVolume* fMagPlateSlottedTilesSIL;  // inverted
   G4LogicalVolume* fMagAirBlockL;
+  G4LogicalVolume* fMagnetCoilL;
+
+  G4double fCoilLength;
+  G4double fCoilThickness;
+  G4double fCoilHeight;
+  G4double fCoilWidth;
+  G4Material* fCoilMaterial;
 
 
   G4double fWorldLength;
@@ -154,6 +161,7 @@ private:
   G4Material* air;
   G4Material* scintillator;
   G4Material* steel;
+  G4Material* copper;
 
   G4ThreeVector TM;
   G4RotationMatrix* RM;
