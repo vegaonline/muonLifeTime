@@ -6,7 +6,7 @@
 #
 /vis/verbose errors
 /control/verbose 0
-/tracking/verbose 0
+/tracking/verbose 2
 /event/verbose 0
 /run/verbose 0
 #
@@ -42,16 +42,16 @@
 # 88 88 : rot Z, Y is out of screen
 # 8 88  : rot X, Z is out of screen
 # 8 8   : X is right, Y is nearly vertical
-/vis/viewer/set/viewpointThetaPhi   88 8 #35 50
+/vis/viewer/set/viewpointThetaPhi  40 40
 /vis/sceneHandler/attach
 # Specify zoom value:
-/vis/viewer/zoom 1.4
+/vis/viewer/zoom 1.6
 #
 # Hidden edge removal
-/vis/viewer/set/hiddenEdge 0
+/vis/viewer/set/hiddenEdge 1
 # Specify style (surface or wireframe):
-#/vis/viewer/set/style surface
-/vis/viewer/set/style wireframe
+/vis/viewer/set/style surface
+#/vis/viewer/set/style wireframe
 # To get nice view
 /vis/geometry/set/visibility World 0 false
 #

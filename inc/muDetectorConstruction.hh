@@ -148,6 +148,7 @@ private:
   G4LogicalVolume* fMagPlateSlottedTilesSXPIL;  // inverted
   G4LogicalVolume* fMagAirBlockL;
   G4LogicalVolume* fMagnetCoilL;
+  G4LogicalVolume* fMagnetCoilAirL;
 
   G4double fCoilLength;
   G4double fCoilThickness;
