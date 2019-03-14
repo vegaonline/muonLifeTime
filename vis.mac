@@ -42,10 +42,8 @@
 # 88 88 : rot Z, Y is out of screen
 # 8 88  : rot X, Z is out of screen
 # 8 8   : X is right, Y is nearly vertical
-/vis/viewer/set/viewpointThetaPhi 30 40 # 20 70  # 48 40
-#/vis/viewer/set/viewpointThetaPhi 35. 50.
+/vis/viewer/set/viewpointThetaPhi   88 8 #35 50
 /vis/sceneHandler/attach
-
 # Specify zoom value:
 /vis/viewer/zoom 1.4
 #
@@ -59,7 +57,7 @@
 #
 /vis/viewer/flush
 # Draw coordinate axes:
-/vis/scene/add/axes 0 0 0 50 cm
+/vis/scene/add/axes 0 0 0 70 cm
 #
 /vis/scene/add/userAction
 /vis/ogl/set/displayListLimit 100000000000

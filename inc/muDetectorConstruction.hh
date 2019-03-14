@@ -138,10 +138,14 @@ private:
   G4LogicalVolume* fMagPlateL; //LogicMagnet;
   G4LogicalVolume* fMagPlateTilesL;
   G4LogicalVolume* fMagPlateTilesIL;
-  G4LogicalVolume* fMagPlateSlottedTilesNL;
-  G4LogicalVolume* fMagPlateSlottedTilesNIL;   // inverted
-  G4LogicalVolume* fMagPlateSlottedTilesSL;
-  G4LogicalVolume* fMagPlateSlottedTilesSIL;  // inverted
+  G4LogicalVolume* fMagPlateSlottedTilesNXML;
+  G4LogicalVolume* fMagPlateSlottedTilesNXPL;
+  G4LogicalVolume* fMagPlateSlottedTilesNXMIL;   // inverted
+  G4LogicalVolume* fMagPlateSlottedTilesNXPIL;   // inverted
+  G4LogicalVolume* fMagPlateSlottedTilesSXML;
+  G4LogicalVolume* fMagPlateSlottedTilesSXPL;
+  G4LogicalVolume* fMagPlateSlottedTilesSXMIL;  // inverted
+  G4LogicalVolume* fMagPlateSlottedTilesSXPIL;  // inverted
   G4LogicalVolume* fMagAirBlockL;
   G4LogicalVolume* fMagnetCoilL;
 
