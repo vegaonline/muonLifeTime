@@ -51,11 +51,11 @@ void muDetectorConstruction::InitMeasurement(){
   fMagnetPlateSlotThk   =   fMagnetPlateThickness + fMagnetPlateStandThk;  // ------ Y ------
   fNumDetector          =    2;
   fDetPlaced.push_back(1);
-  fTmpGap = 50.0 * mm + fMagnetPlateThickness + 0.5 * fMagnetPlateGap;  // D_detMag + H_MagPlate + 0.5 * MagPlatesGap
+  fTmpGap = 50.0 * mm + fMagnetPlateSlotThk;  // fMagnetPlateThickness + 0.5 * fMagnetPlateGap;  // D_detMag + H_MagPlate + 0.5 * MagPlatesGap
   fTmpGap += 0.5 * fDetectorThickness;     // this shows distance of centre of det from center of magnet
   fDistDetMagnet.push_back(fTmpGap);  // Det#1 above magnet
   fDetPlaced.push_back(-1);
-  fTmpGap = 150.0 * mm + fMagnetPlateThickness + 0.5 * fMagnetPlateGap;
+  fTmpGap = 150.0 * mm + fMagnetPlateSlotThk;  // fMagnetPlateThickness + 0.5 * fMagnetPlateGap;
   fTmpGap += 0.5 * fDetectorThickness;    // this shows distance of centre of det from center of magnet
   fDistDetMagnet.push_back(fTmpGap);  // Det#2 below magnet
   G4double fMaxY = 0.0;
@@ -355,8 +355,7 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   visAttrib = new G4VisAttributes(G4Color(0.5, 0.4, 0.7));  // G4Colour(0.9, 0.4, 0.6));
   for (auto ij=0; ij < fNumDetector; ij++) {
     fLogicDetector[ij]->SetVisAttributes(visAttrib);
-  }
-  visAttrib->SetVisibility(false); //---------------------------------------> REMOVE if ALL IS OK in geometry
+  }  
   fVisAttributes.push_back(visAttrib);
 
   PrintParameters();
