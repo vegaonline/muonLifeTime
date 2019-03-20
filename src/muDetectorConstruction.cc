@@ -169,7 +169,7 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   //  There are two type of tiles one with and the other without tiles.
   auto fMagTilePlateTop = new G4Box("MagTilePlateTopS", 0.5 * fMagnetPlateLength, 0.5 * fMagnetPlateThickness, 0.5 * fMagnetPlateWidth);
   auto fMagTileSlot     = new G4Box("MagTileSlotTopS", 0.5 * fMagnetPlateSlotLen, 0.5 * fMagnetPlateSlotThk,  0.5 * fMagnetPlateSlotWidth);
-  auto fMagTileAir     = new G4Box("MagTileAirS", 0.5 * fMagnetPlateSlotLen, 0.5 * fMagnetPlateSlotThk,  0.5 * fMagnetPlateSlotWidth);
+  //auto fMagTileAir     = new G4Box("MagTileAirS", 0.5 * fMagnetPlateSlotLen, 0.5 * fMagnetPlateSlotThk,  0.5 * fMagnetPlateSlotWidth);
   auto fMagTileStand    = new G4Box("MagTileStandS", 0.5 * fMagnetPlateStandLen, 0.5 * fMagnetPlateStandThk, 0.5 * fMagnetPlateStandWid);
 
   auto fMagnetCoilO     = new G4Box("MagnetCoilOut", 0.5 * fCoilLength, 0.5 * (fCoilHeight + 2.0 * fAirGap), 0.5 * fCoilWidth);
@@ -355,7 +355,7 @@ G4VPhysicalVolume* muDetectorConstruction::ConstructVolumes(){
   visAttrib = new G4VisAttributes(G4Color(0.5, 0.4, 0.7));  // G4Colour(0.9, 0.4, 0.6));
   for (auto ij=0; ij < fNumDetector; ij++) {
     fLogicDetector[ij]->SetVisAttributes(visAttrib);
-  }  
+  }
   fVisAttributes.push_back(visAttrib);
 
   PrintParameters();
